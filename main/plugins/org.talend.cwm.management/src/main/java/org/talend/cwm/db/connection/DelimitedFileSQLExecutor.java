@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ import org.talend.core.model.metadata.builder.connection.Escape;
 import org.talend.core.model.metadata.builder.connection.MetadataColumn;
 import org.talend.core.model.metadata.builder.connection.MetadataTable;
 import org.talend.cwm.helper.ColumnHelper;
+import org.talend.dataquality.matchmerge.Record;
 import org.talend.dq.helper.AnalysisExecutorHelper;
 import org.talend.fileprocess.FileInputDelimited;
 import orgomg.cwm.foundation.softwaredeployment.DataManager;
@@ -180,4 +182,17 @@ public class DelimitedFileSQLExecutor extends SQLExecutor {
         this.limit = limit;
 
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.talend.cwm.db.connection.ISQLExecutor#getResultSetIterator(orgomg.cwm.foundation.softwaredeployment.DataManager
+     * , java.util.List)
+     */
+    public Iterator<Record> getResultSetIterator(DataManager connection, List<ModelElement> analysedElements) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

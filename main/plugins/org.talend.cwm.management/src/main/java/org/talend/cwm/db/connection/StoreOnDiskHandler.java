@@ -27,7 +27,7 @@ import org.talend.designer.components.lookup.common.ICommonLookup;
 import org.talend.designer.components.lookup.persistent.IPersistentLookupManager;
 import org.talend.designer.components.lookup.persistent.PersistentLookupManager;
 import org.talend.designer.components.lookup.persistent.PersistentSortedLookupManager;
-import org.talend.dq.analysis.ExecuteMatchRuleHandler;
+import org.talend.dq.analysis.AnalysisRecordGroupingUtils;
 import org.talend.dq.analysis.persistent.BlockKey;
 import org.talend.dq.analysis.persistent.MatchRow;
 
@@ -77,8 +77,7 @@ public class StoreOnDiskHandler {
             String container, int buffSize) throws IOException {
         this.columnMap = columnMap;
         this.recordMatchingIndicator = recordMatchingIndicator;
-        ExecuteMatchRuleHandler handler = new ExecuteMatchRuleHandler();
-        this.blockKeyDefinitions = handler.getBlockKeySchema(StoreOnDiskHandler.this.recordMatchingIndicator);
+        this.blockKeyDefinitions = AnalysisRecordGroupingUtils.getBlockKeySchema(StoreOnDiskHandler.this.recordMatchingIndicator);
         initPersistentLookupManager(container, buffSize);
         generateKeyAPI = new AbstractGenerateKey();
     }

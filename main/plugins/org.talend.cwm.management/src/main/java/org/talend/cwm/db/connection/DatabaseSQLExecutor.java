@@ -15,6 +15,7 @@ package org.talend.cwm.db.connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +27,8 @@ import org.talend.core.model.metadata.builder.database.JavaSqlFactory;
 import org.talend.cwm.helper.SwitchHelpers;
 import org.talend.cwm.management.i18n.Messages;
 import org.talend.cwm.relational.TdColumn;
+import org.talend.dataquality.matchmerge.Record;
+import org.talend.dataquality.record.linkage.iterator.ResultSetIterator;
 import org.talend.dq.dbms.DbmsLanguage;
 import org.talend.dq.dbms.DbmsLanguageFactory;
 import org.talend.utils.sugars.ReturnCode;
@@ -57,13 +60,7 @@ public class DatabaseSQLExecutor extends SQLExecutor {
         }
         int columnListSize = analysedElements.size();
 
-        TypedReturnCode<java.sql.Connection> sqlconnection = JavaSqlFactory.createConnection((Connection) connection);
-        if (!sqlconnection.isOk()) {
-            MessageDialogWithToggle.openWarning(Display.getCurrent().getActiveShell(),
-                    Messages.getString("DatabaseSQLExecutor.createConnectionError"), //$NON-NLS-1$
-                    sqlconnection.getMessage());
-            throw new SQLException(sqlconnection.getMessage());
-        }
+        TypedReturnCode<java.sql.Connection> sqlconnection = getSQLConnection(connection);
         Statement statement = null;
         ResultSet resultSet = null;
         try {
@@ -101,6 +98,24 @@ public class DatabaseSQLExecutor extends SQLExecutor {
             log.error(e.getMessage(), e);
         }
         return dataFromTable;
+    }
+
+    /**
+     * DOC yyin Comment method "getSQLConnection".
+     * 
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
+    private TypedReturnCode<java.sql.Connection> getSQLConnection(DataManager connection) throws SQLException {
+        TypedReturnCode<java.sql.Connection> sqlconnection = JavaSqlFactory.createConnection((Connection) connection);
+        if (!sqlconnection.isOk()) {
+            MessageDialogWithToggle.openWarning(Display.getCurrent().getActiveShell(),
+                    Messages.getString("DatabaseSQLExecutor.createConnectionError"), //$NON-NLS-1$
+                    sqlconnection.getMessage());
+            throw new SQLException(sqlconnection.getMessage());
+        }
+        return sqlconnection;
     }
 
     /**
@@ -148,5 +163,23 @@ public class DatabaseSQLExecutor extends SQLExecutor {
     public void setLimit(int limit) {
         this.limit = limit;
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.talend.cwm.db.connection.ISQLExecutor#getResultSetIterator(orgomg.cwm.foundation.softwaredeployment.DataManager
+     * , java.util.List)
+     */
+    public Iterator<Record> getResultSetIterator(DataManager connection, List<ModelElement> analysedElements) throws SQLException {
+        String sqlString = createSqlStatement(connection, analysedElements);
+        TypedReturnCode<java.sql.Connection> sqlconnection = getSQLConnection(connection);
+        List<String> elementsName = new ArrayList<String>();
+        for (ModelElement element : analysedElements) {
+            elementsName.add(element.getName());
+        }
+
+        return new ResultSetIterator(sqlconnection.getObject(), sqlString, elementsName);
     }
 }

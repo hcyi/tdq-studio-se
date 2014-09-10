@@ -12,9 +12,11 @@
 // ============================================================================
 package org.talend.cwm.db.connection;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.talend.dataquality.analysis.Analysis;
+import org.talend.dataquality.matchmerge.Record;
 import orgomg.cwm.foundation.softwaredeployment.DataManager;
 import orgomg.cwm.objectmodel.core.ModelElement;
 
@@ -50,4 +52,17 @@ public class MDMSQLExecutor extends SQLExecutor {
         this.limit = limit;
 
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.talend.cwm.db.connection.ISQLExecutor#getResultSetIterator(orgomg.cwm.foundation.softwaredeployment.DataManager
+     * , java.util.List)
+     */
+    public Iterator<Record> getResultSetIterator(DataManager connection, List<ModelElement> analysedElements) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
