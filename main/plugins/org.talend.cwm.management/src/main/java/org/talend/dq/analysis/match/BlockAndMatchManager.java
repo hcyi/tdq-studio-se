@@ -13,6 +13,7 @@
 package org.talend.dq.analysis.match;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.talend.commons.exception.BusinessException;
 import org.talend.core.model.metadata.builder.connection.MetadataColumn;
 import org.talend.dataquality.indicators.columnset.RecordMatchingIndicator;
 import org.talend.dataquality.matchmerge.Attribute;
+import org.talend.dataquality.record.linkage.constant.RecordMatcherType;
 import org.talend.dataquality.record.linkage.genkey.AbstractGenerateKey;
 import org.talend.dataquality.record.linkage.grouping.AnalysisMatchRecordGrouping;
 import org.talend.dataquality.record.linkage.grouping.MatchGroupResultConsumer;
@@ -88,6 +90,12 @@ public class BlockAndMatchManager {
             matchInOneBlock.run(record);
         }
 
+        // close the resultset and connection
+        try {
+            resultIterator.close();
+        } catch (SQLException e) {
+            throw new BusinessException(e);
+        }
         // end all
         for (String key : this.blockMatchMap.keySet()) {
             OneBlockMatching oneBlockMatching = blockMatchMap.get(key);
@@ -137,10 +145,16 @@ public class BlockAndMatchManager {
 
         private AnalysisMatchRecordGrouping analysisMatchRecordGrouping = new AnalysisMatchRecordGrouping(matchResultConsumer);
 
+        private boolean isSwoosh = false;
+
         public OneBlockMatching() throws BusinessException {
             AnalysisRecordGroupingUtils.setRuleMatcher(columnMap, recordMatchingIndicator, analysisMatchRecordGrouping);
             try {
                 AnalysisRecordGroupingUtils.initialMatchGrouping(columnMap, recordMatchingIndicator, analysisMatchRecordGrouping);
+                if (recordMatchingIndicator.getBuiltInMatchRuleDefinition().getRecordLinkageAlgorithm()
+                        .equals(RecordMatcherType.T_SwooshAlgorithm.name())) {
+                    isSwoosh = true;
+                }
             } catch (InstantiationException e1) {
                 throw new BusinessException();
             } catch (IllegalAccessException e1) {
@@ -156,13 +170,17 @@ public class BlockAndMatchManager {
          * @see java.lang.Thread#run()
          */
         public void run(RichRecord currentRecord) throws BusinessException {
-            String[] inputStrRow = new String[currentRecord.getAttributes().size()];
-            int index = 0;
-            for (Attribute obj : currentRecord.getAttributes()) {
-                inputStrRow[index++] = obj.getValue() == null ? null : obj.getValue().toString();
-            }
             try {
-                analysisMatchRecordGrouping.doGroup(inputStrRow);
+                if (isSwoosh) {
+                    analysisMatchRecordGrouping.doSwooshGroup(currentRecord);
+                } else {
+                    String[] inputStrRow = new String[currentRecord.getAttributes().size()];
+                    int index = 0;
+                    for (Attribute obj : currentRecord.getAttributes()) {
+                        inputStrRow[index++] = obj.getValue() == null ? null : obj.getValue().toString();
+                    }
+                    analysisMatchRecordGrouping.doGroup(inputStrRow);
+                }
             } catch (IOException e) {
                 throw new BusinessException();
             } catch (InterruptedException e) {
@@ -172,7 +190,11 @@ public class BlockAndMatchManager {
 
         public void end() throws BusinessException {
             try {
-                analysisMatchRecordGrouping.end();
+                if (isSwoosh) {
+                    analysisMatchRecordGrouping.doSwooshEnd();
+                } else {
+                    analysisMatchRecordGrouping.end();
+                }
             } catch (IOException e) {
                 throw new BusinessException();
             } catch (InterruptedException e) {

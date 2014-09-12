@@ -222,7 +222,6 @@ public abstract class AbstractRecordGrouping<TYPE> implements IRecordGrouping<TY
             break;
         case T_SwooshAlgorithm:
             swooshGrouping.addToList(inputRow, multiMatchRules);
-
         }
     }
 
@@ -595,5 +594,14 @@ public abstract class AbstractRecordGrouping<TYPE> implements IRecordGrouping<TY
     protected abstract TYPE[] createTYPEArray(int size);
 
     protected abstract TYPE castAsType(Object objectValue);
+
+    /**
+     * Getter for survivorShipAlgorithmParams.
+     * 
+     * @return the survivorShipAlgorithmParams
+     */
+    protected SurvivorShipAlgorithmParams getSurvivorShipAlgorithmParams() {
+        return this.survivorShipAlgorithmParams;
+    }
 
 }
