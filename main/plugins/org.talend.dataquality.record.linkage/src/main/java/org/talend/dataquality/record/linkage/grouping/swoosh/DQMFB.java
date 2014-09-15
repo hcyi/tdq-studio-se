@@ -66,13 +66,13 @@ public class DQMFB extends MFB {
 
     public void matchOneRecord(Record oneRecord) {
         matchOneRecord(callback, mergedRecords, queue, oneRecord);
-    }
-
-    public List<Record> getResult() {
         while (!queue.isEmpty() && !callback.isInterrupted()) {
             Record currentRecord = queue.poll();
             matchOneRecord(callback, mergedRecords, queue, currentRecord);
         }
+    }
+
+    public List<Record> getResult() {
         callback.onEndProcessing();
         return this.mergedRecords;
     }

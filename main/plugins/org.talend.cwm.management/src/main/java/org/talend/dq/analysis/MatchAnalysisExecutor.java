@@ -43,7 +43,6 @@ import org.talend.dataquality.indicators.columnset.BlockKeyIndicator;
 import org.talend.dataquality.indicators.columnset.RecordMatchingIndicator;
 import org.talend.dataquality.matchmerge.Record;
 import org.talend.dataquality.record.linkage.grouping.MatchGroupResultConsumer;
-import org.talend.dataquality.record.linkage.iterator.ResultSetIterator;
 import org.talend.designer.components.lookup.persistent.IPersistentLookupManager;
 import org.talend.dq.analysis.match.BlockAndMatchManager;
 import org.talend.dq.analysis.match.ExecuteMatchRuleHandler;
@@ -154,8 +153,8 @@ public class MatchAnalysisExecutor implements IAnalysisExecutor {
             try {
                 Iterator<Record> resultSetIterator = sqlExecutor.getResultSetIterator(analysis.getContext().getConnection(),
                         anlayzedElements);
-                BlockAndMatchManager bAndmManager = new BlockAndMatchManager((ResultSetIterator) resultSetIterator,
-                        matchResultConsumer, columnMap, recordMatchingIndicator);
+                BlockAndMatchManager bAndmManager = new BlockAndMatchManager(resultSetIterator, matchResultConsumer, columnMap,
+                        recordMatchingIndicator);
                 bAndmManager.run();
             } catch (SQLException e) {
                 log.error(e, e);

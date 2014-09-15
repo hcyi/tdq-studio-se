@@ -17,14 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.talend.dataquality.matchmerge.Attribute;
-import org.talend.dataquality.record.linkage.attribute.IAttributeMatcher;
 import org.talend.dataquality.record.linkage.grouping.swoosh.DQAttribute;
 import org.talend.dataquality.record.linkage.grouping.swoosh.RichRecord;
 import org.talend.dataquality.record.linkage.grouping.swoosh.SurvivorShipAlgorithmParams;
-import org.talend.dataquality.record.linkage.record.IRecordMatcher;
 
 /**
  * created by zshen on Aug 7, 2013 Detailled comment
@@ -72,7 +69,6 @@ public class AnalysisMatchRecordGrouping extends AbstractRecordGrouping<String> 
     @Override
     public void setSurvivorShipAlgorithmParams(SurvivorShipAlgorithmParams survivorShipAlgorithmParams) {
         super.setSurvivorShipAlgorithmParams(survivorShipAlgorithmParams);
-        swooshGrouping.initialMFBForOneRecord(getCombinedRecordMatcher(), survivorShipAlgorithmParams);
     }
 
     /**
@@ -111,43 +107,20 @@ public class AnalysisMatchRecordGrouping extends AbstractRecordGrouping<String> 
         }
     }
 
-    public void doSwooshGroup(RichRecord currentRecord) {
-        // translate the record's attribute to -->origalRow, and attributes only contain match keys
-        translateRecordForSwoosh(currentRecord);
-
-        swooshGrouping.oneRecordMatch(currentRecord);
-    }
-
     /**
-     * DOC yyin Comment method "translateRecordForSwoosh".
+     * When running the match analysis, use the Record when do group.
      * 
      * @param currentRecord
+     * @throws IOException
+     * @throws InterruptedException
      */
-    private void translateRecordForSwoosh(RichRecord currentRecord) {
-        List<Attribute> matchAttrs = new ArrayList<Attribute>();
-        List<DQAttribute<?>> rowList = new ArrayList<DQAttribute<?>>();
-        for (Attribute attribute : currentRecord.getAttributes()) {
-            DQAttribute<String> attri = new DQAttribute<String>(attribute.getLabel(), attribute.getColumnIndex(),
-                    attribute.getValue());
-            rowList.add(attri);
+    public void doGroup(RichRecord currentRecord) throws IOException, InterruptedException {
+        String[] inputStrRow = new String[currentRecord.getAttributes().size()];
+        int index = 0;
+        for (Attribute obj : currentRecord.getAttributes()) {
+            inputStrRow[index++] = obj.getValue() == null ? null : obj.getValue().toString();
         }
-        // clear the current attributes to only contain match keys
-        IRecordMatcher recordMatcher = this.getCombinedRecordMatcher().getMatchers().get(0);
-        for (IAttributeMatcher matcher : recordMatcher.getAttributeMatchers()) {
-            for (Attribute attribute : currentRecord.getAttributes()) {
-                if (StringUtils.equalsIgnoreCase(attribute.getLabel(), matcher.getAttributeName())) {
-                    matchAttrs.add(attribute);
-                    break;
-                }
-            }
-        }
-        currentRecord.getAttributes().clear();
-        currentRecord.getAttributes().addAll(matchAttrs);
-        currentRecord.setOriginRow(rowList);
-    }
-
-    public void doSwooshEnd() {
-        swooshGrouping.afterAllRecordFinished();
+        doGroup(inputStrRow);
     }
 
     /**

@@ -55,15 +55,25 @@ public class ResultSetIterator implements Iterator<Record> {
     }
 
     /*
-     * (non-Javadoc)
+     * check if the resultset has the next record, if not, close the connection
      * 
      * @see java.util.Iterator#hasNext()
      */
     @Override
     public boolean hasNext() {
         try {
-            return resultSet.next();
+            if (resultSet.next()) {
+                return true;
+            } else {
+                close();
+                return false;
+            }
         } catch (SQLException e) {
+            try {
+                close();
+            } catch (SQLException e1) {
+                throw new RuntimeException("Could not close the connection", e); //$NON-NLS-1$
+            }
             throw new RuntimeException("Could not move to next result", e); //$NON-NLS-1$
         }
     }
@@ -104,7 +114,7 @@ public class ResultSetIterator implements Iterator<Record> {
         throw new UnsupportedOperationException("Read only iterator"); //$NON-NLS-1$
     }
 
-    public void close() throws SQLException {
+    private void close() throws SQLException {
         resultSet.close();
         statement.close();
         connection.close();

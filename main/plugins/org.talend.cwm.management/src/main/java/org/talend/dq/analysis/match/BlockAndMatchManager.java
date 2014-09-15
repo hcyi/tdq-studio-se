@@ -13,8 +13,8 @@
 package org.talend.dq.analysis.match;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +26,8 @@ import org.talend.dataquality.record.linkage.constant.RecordMatcherType;
 import org.talend.dataquality.record.linkage.genkey.AbstractGenerateKey;
 import org.talend.dataquality.record.linkage.grouping.AnalysisMatchRecordGrouping;
 import org.talend.dataquality.record.linkage.grouping.MatchGroupResultConsumer;
+import org.talend.dataquality.record.linkage.grouping.swoosh.AnalysisSwooshMatchRecordGrouping;
 import org.talend.dataquality.record.linkage.grouping.swoosh.RichRecord;
-import org.talend.dataquality.record.linkage.iterator.ResultSetIterator;
 import org.talend.dataquality.record.linkage.utils.MatchAnalysisConstant;
 import org.talend.dq.analysis.AnalysisRecordGroupingUtils;
 
@@ -40,7 +40,7 @@ public class BlockAndMatchManager {
     private Map<String, OneBlockMatching> blockMatchMap = new HashMap<String, OneBlockMatching>();
 
     // Used to read each record from the data source
-    private ResultSetIterator resultIterator;
+    private Iterator resultIterator;
 
     private MatchGroupResultConsumer matchResultConsumer;
 
@@ -54,7 +54,7 @@ public class BlockAndMatchManager {
 
     private List<Map<String, String>> blockKeyDefinition;
 
-    public BlockAndMatchManager(ResultSetIterator resultIterator, MatchGroupResultConsumer matchResultConsumer,
+    public BlockAndMatchManager(Iterator resultIterator, MatchGroupResultConsumer matchResultConsumer,
             Map<MetadataColumn, String> columnMap, RecordMatchingIndicator recordMatchingIndicator) {
         this.resultIterator = resultIterator;
         this.matchResultConsumer = matchResultConsumer;
@@ -90,12 +90,6 @@ public class BlockAndMatchManager {
             matchInOneBlock.run(record);
         }
 
-        // close the resultset and connection
-        try {
-            resultIterator.close();
-        } catch (SQLException e) {
-            throw new BusinessException(e);
-        }
         // end all
         for (String key : this.blockMatchMap.keySet()) {
             OneBlockMatching oneBlockMatching = blockMatchMap.get(key);
@@ -143,18 +137,27 @@ public class BlockAndMatchManager {
      */
     class OneBlockMatching {
 
-        private AnalysisMatchRecordGrouping analysisMatchRecordGrouping = new AnalysisMatchRecordGrouping(matchResultConsumer);
-
-        private boolean isSwoosh = false;
+        private AnalysisMatchRecordGrouping vsrGrouping;
 
         public OneBlockMatching() throws BusinessException {
-            AnalysisRecordGroupingUtils.setRuleMatcher(columnMap, recordMatchingIndicator, analysisMatchRecordGrouping);
+            if (recordMatchingIndicator.getBuiltInMatchRuleDefinition().getRecordLinkageAlgorithm()
+                    .equals(RecordMatcherType.T_SwooshAlgorithm.name())) {
+                vsrGrouping = new AnalysisSwooshMatchRecordGrouping(matchResultConsumer);
+            } else {
+                vsrGrouping = new AnalysisMatchRecordGrouping(matchResultConsumer);
+            }
+            initGrouping(vsrGrouping);
+        }
+
+        /**
+         * DOC yyin Comment method "initGrouping".
+         * 
+         * @throws BusinessException
+         */
+        private void initGrouping(AnalysisMatchRecordGrouping recordGrouping) throws BusinessException {
+            AnalysisRecordGroupingUtils.setRuleMatcher(columnMap, recordMatchingIndicator, recordGrouping);
             try {
-                AnalysisRecordGroupingUtils.initialMatchGrouping(columnMap, recordMatchingIndicator, analysisMatchRecordGrouping);
-                if (recordMatchingIndicator.getBuiltInMatchRuleDefinition().getRecordLinkageAlgorithm()
-                        .equals(RecordMatcherType.T_SwooshAlgorithm.name())) {
-                    isSwoosh = true;
-                }
+                AnalysisRecordGroupingUtils.initialMatchGrouping(columnMap, recordMatchingIndicator, recordGrouping);
             } catch (InstantiationException e1) {
                 throw new BusinessException();
             } catch (IllegalAccessException e1) {
@@ -171,16 +174,7 @@ public class BlockAndMatchManager {
          */
         public void run(RichRecord currentRecord) throws BusinessException {
             try {
-                if (isSwoosh) {
-                    analysisMatchRecordGrouping.doSwooshGroup(currentRecord);
-                } else {
-                    String[] inputStrRow = new String[currentRecord.getAttributes().size()];
-                    int index = 0;
-                    for (Attribute obj : currentRecord.getAttributes()) {
-                        inputStrRow[index++] = obj.getValue() == null ? null : obj.getValue().toString();
-                    }
-                    analysisMatchRecordGrouping.doGroup(inputStrRow);
-                }
+                vsrGrouping.doGroup(currentRecord);
             } catch (IOException e) {
                 throw new BusinessException();
             } catch (InterruptedException e) {
@@ -190,11 +184,7 @@ public class BlockAndMatchManager {
 
         public void end() throws BusinessException {
             try {
-                if (isSwoosh) {
-                    analysisMatchRecordGrouping.doSwooshEnd();
-                } else {
-                    analysisMatchRecordGrouping.end();
-                }
+                vsrGrouping.end();
             } catch (IOException e) {
                 throw new BusinessException();
             } catch (InterruptedException e) {
