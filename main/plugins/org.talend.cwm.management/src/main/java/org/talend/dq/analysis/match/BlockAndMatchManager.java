@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.talend.commons.exception.BusinessException;
 import org.talend.core.model.metadata.builder.connection.MetadataColumn;
+import org.talend.dataquality.indicators.columnset.BlockKeyIndicator;
 import org.talend.dataquality.indicators.columnset.RecordMatchingIndicator;
 import org.talend.dataquality.matchmerge.Attribute;
 import org.talend.dataquality.record.linkage.constant.RecordMatcherType;
@@ -46,6 +48,8 @@ public class BlockAndMatchManager {
 
     private RecordMatchingIndicator recordMatchingIndicator;
 
+    private BlockKeyIndicator blockKeyIndicator;
+
     private Map<MetadataColumn, String> columnMap;
 
     private AbstractGenerateKey blockKeyGenerator = new AbstractGenerateKey();
@@ -55,10 +59,12 @@ public class BlockAndMatchManager {
     private List<Map<String, String>> blockKeyDefinition;
 
     public BlockAndMatchManager(Iterator resultIterator, MatchGroupResultConsumer matchResultConsumer,
-            Map<MetadataColumn, String> columnMap, RecordMatchingIndicator recordMatchingIndicator) {
+            Map<MetadataColumn, String> columnMap, RecordMatchingIndicator recordMatchingIndicator,
+            BlockKeyIndicator blockKeyIndicator) {
         this.resultIterator = resultIterator;
         this.matchResultConsumer = matchResultConsumer;
         this.recordMatchingIndicator = recordMatchingIndicator;
+        this.blockKeyIndicator = blockKeyIndicator;
         this.columnMap = columnMap;
         for (MetadataColumn metaCol : columnMap.keySet()) {
             colName2IndexMap.put(metaCol.getName(), columnMap.get(metaCol));
@@ -91,10 +97,27 @@ public class BlockAndMatchManager {
         }
 
         // end all
+        endAll();
+    }
+
+    /**
+     * end all blocks matching, and set each block size into the block indicator
+     * 
+     * @throws BusinessException
+     */
+    private void endAll() throws BusinessException {
+        TreeMap<Object, Long> blockSize2Freq = new TreeMap<Object, Long>();
         for (String key : this.blockMatchMap.keySet()) {
             OneBlockMatching oneBlockMatching = blockMatchMap.get(key);
             oneBlockMatching.end();
+            long blockSize = oneBlockMatching.getBlockSize();
+            Long freq = blockSize2Freq.get(blockSize);
+            if (freq == null) {
+                freq = 0l;
+            }
+            blockSize2Freq.put(blockSize, freq + 1);
         }
+        blockKeyIndicator.setBlockSize2frequency(blockSize2Freq);
     }
 
     /**
@@ -139,6 +162,8 @@ public class BlockAndMatchManager {
 
         private AnalysisMatchRecordGrouping vsrGrouping;
 
+        private long blockSize = 0;
+
         public OneBlockMatching() throws BusinessException {
             if (recordMatchingIndicator.getBuiltInMatchRuleDefinition().getRecordLinkageAlgorithm()
                     .equals(RecordMatcherType.T_SwooshAlgorithm.name())) {
@@ -175,6 +200,7 @@ public class BlockAndMatchManager {
         public void run(RichRecord currentRecord) throws BusinessException {
             try {
                 vsrGrouping.doGroup(currentRecord);
+                blockSize++;
             } catch (IOException e) {
                 throw new BusinessException();
             } catch (InterruptedException e) {
@@ -190,6 +216,10 @@ public class BlockAndMatchManager {
             } catch (InterruptedException e) {
                 throw new BusinessException();
             }
+        }
+
+        public long getBlockSize() {
+            return blockSize;
         }
     }
 }

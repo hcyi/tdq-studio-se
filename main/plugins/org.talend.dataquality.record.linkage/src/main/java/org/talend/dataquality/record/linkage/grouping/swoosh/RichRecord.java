@@ -318,18 +318,6 @@ public class RichRecord extends Record {
         originRow.add(new DQAttribute<String>("Attribute scores", originRow.size(), StringUtils.EMPTY)); //$NON-NLS-1$
     }
 
-    public List<DQAttribute<?>> getOutputRow() {
-        if (originRow == null) {
-            return null;
-        }
-        if (this.isMaster) {
-
-        } else {
-
-        }
-        return originRow;
-    }
-
     /**
      * DOC zhao Comment method "computeGID".
      * 

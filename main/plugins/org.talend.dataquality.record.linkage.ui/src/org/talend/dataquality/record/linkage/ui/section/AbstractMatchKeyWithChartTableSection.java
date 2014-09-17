@@ -36,7 +36,7 @@ import org.talend.dataquality.record.linkage.ui.composite.utils.MatchRuleAnlaysi
 import org.talend.dataquality.record.linkage.ui.i18n.internal.DefaultMessagesImpl;
 import org.talend.dataquality.record.linkage.utils.MatchAnalysisConstant;
 import org.talend.dq.analysis.AnalysisRecordGroupingUtils;
-import org.talend.dq.analysis.ExecuteMatchRuleHandler;
+import org.talend.dq.analysis.match.ExecuteMatchRuleHandler;
 import org.talend.utils.sugars.TypedReturnCode;
 
 /**

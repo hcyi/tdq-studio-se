@@ -38,8 +38,6 @@ public class ResultSetIterator implements Iterator<Record> {
 
     private final ResultSet resultSet;
 
-    private List<Attribute> attributes;
-
     private List<String> columnNames;
 
     private long index = 0;
@@ -51,7 +49,6 @@ public class ResultSetIterator implements Iterator<Record> {
         this.resultSet = statement.getResultSet();
 
         this.columnNames = elementNames;
-        attributes = new ArrayList<Attribute>();
     }
 
     /*
@@ -85,7 +82,7 @@ public class ResultSetIterator implements Iterator<Record> {
      */
     @Override
     public Record next() {
-        attributes.clear();
+        List<Attribute> attributes = new ArrayList<Attribute>();
         try {
             ResultSetMetaData metaData = resultSet.getMetaData();
             if (metaData.getColumnCount() == 0) {

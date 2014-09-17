@@ -121,12 +121,7 @@ public class TSwooshGrouping<TYPE> {
 
         Iterator<Record> iterator = new DQRecordIterator(totalCount, rcdsGenerators);
         List<Record> mergedRecords = malgorithm.execute(iterator, new GroupingCallBack());
-        for (Record rcd : mergedRecords) {
-            RichRecord printRcd = (RichRecord) rcd;
-            output(printRcd);
-        }
-        totalCount = 0;
-        rcdsGenerators.clear();
+        outputResult(mergedRecords);
     }
 
     /**
@@ -162,10 +157,22 @@ public class TSwooshGrouping<TYPE> {
 
     public void afterAllRecordFinished() {
         List<Record> result = algorithm.getResult();
+        outputResult(result);
+
+    }
+
+    /**
+     * DOC yyin Comment method "outputResult".
+     * 
+     * @param result
+     */
+    private void outputResult(List<Record> result) {
         for (Record rcd : result) {
             RichRecord printRcd = (RichRecord) rcd;
             output(printRcd);
         }
+        totalCount = 0;
+        rcdsGenerators.clear();
     }
 
     class GroupingCallBack implements MatchMergeAlgorithm.Callback {
