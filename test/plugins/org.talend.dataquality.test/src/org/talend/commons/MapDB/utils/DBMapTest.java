@@ -27,13 +27,12 @@ import org.junit.Test;
 public class DBMapTest {
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#hashCode()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#hashCode()}.
      */
     @Test
     public void testHashCode() {
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap();
-        DBMapParameter dbMapParameter = new DBMapParameter();
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(dbMap1.hashCode(), dbMap2.hashCode());
         dbMap1.put("key1", 100l); //$NON-NLS-1$
         dbMap2.put("key1", 100l); //$NON-NLS-1$
@@ -44,13 +43,12 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#size()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#size()}.
      */
     @Test
     public void testSize() {
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap();
-        DBMapParameter dbMapParameter = new DBMapParameter();
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(0, dbMap1.size());
         Assert.assertEquals(0, dbMap2.size());
         dbMap1.put("key1", 100l); //$NON-NLS-1$
@@ -66,13 +64,12 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#isEmpty()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#isEmpty()}.
      */
     @Test
     public void testIsEmpty() {
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap();
-        DBMapParameter dbMapParameter = new DBMapParameter();
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap1.isEmpty());
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap1.put("key1", 100l); //$NON-NLS-1$
@@ -88,13 +85,12 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#clear()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#clear()}.
      */
     @Test
     public void testClear() {
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap();
-        DBMapParameter dbMapParameter = new DBMapParameter();
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap1.isEmpty());
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap1.put("key1", 100l); //$NON-NLS-1$
@@ -110,12 +106,11 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#DBMap(DBMapParameter, boolean)} .
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#DBMap(DBMapParameter, boolean)} .
      */
     @Test
     public void testDBMapDBMapParameter() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         Assert.assertEquals(false, dbMap2.isEmpty());
@@ -123,49 +118,45 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#close()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#close()}.
      */
     @Test
     public void testClose() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         Assert.assertEquals(false, dbMap2.isEmpty());
         dbMap2.close();
+        Assert.assertTrue(dbMap2.isClosed());
         try {
-            while (!dbMap2.isClosed()) {
-                dbMap2.put("key2", 100l); //$NON-NLS-1$
-            }
-            Assert.fail("progress should not come here, the IllegalAccessError should be throw"); //$NON-NLS-1$
+            dbMap2.put("key2", 100l); //$NON-NLS-1$
         } catch (IllegalAccessError e) {
             // nothing to do
+            Assert.assertEquals("already closed", e.getMessage()); //$NON-NLS-1$
         }
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#entrySet()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#entrySet()}.
      */
     @Test
     public void testEntrySet() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
-        for (Entry<TupleArray, Long> entry : dbMap2.entrySet()) {
-            Assert.assertEquals("key1", entry.getKey().keyArray[0]); //$NON-NLS-1$
+        for (Entry<String, Long> entry : dbMap2.entrySet()) {
+            Assert.assertEquals("key1", entry.getKey()); //$NON-NLS-1$
             Assert.assertEquals(100l, entry.getValue().longValue());
         }
         dbMap2.close();
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#containsValue(java.lang.Object)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#containsValue(java.lang.Object)}.
      */
     @Test
     public void testContainsValueObject() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         boolean containsValue = dbMap2.containsValue(100l);
@@ -176,12 +167,11 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#containsKey(java.lang.Object)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#containsKey(java.lang.Object)}.
      */
     @Test
     public void testContainsKeyObject() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         boolean containsKey = dbMap2.containsKey("key1"); //$NON-NLS-1$
@@ -192,12 +182,11 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#get(java.lang.Object)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#get(java.lang.Object)}.
      */
     @Test
     public void testGetObject() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         Long value = dbMap2.get("key1"); //$NON-NLS-1$
@@ -208,53 +197,33 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#put(java.lang.String, java.lang.Long)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#put(java.lang.String, java.lang.Long)}.
      */
     @Test
     public void testPutStringLong() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         try {
-            dbMap2.put((TupleArray) null, 100l);
-            Assert.fail("should have a NullPointerException be throw"); //$NON-NLS-1$
-        } catch (IllegalArgumentException e) {
-            // nothing to do
+            dbMap2.put(null, 100l);
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof NullPointerException);
         }
         try {
             dbMap2.put("key2", null); //$NON-NLS-1$
-            Assert.fail("should have a NullPointerException be throw"); //$NON-NLS-1$
-        } catch (IllegalArgumentException e) {
-            // nothing to do
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof NullPointerException);
         }
         dbMap2.close();
         // BtreeMap
-        dbMap2 = new TupleArrayKeyMap(dbMapParameter);
-        Assert.assertEquals(true, dbMap2.isEmpty());
-        dbMap2.put("key1", 100l); //$NON-NLS-1$
-        try {
-            dbMap2.put((TupleArray) null, 100l);
-            Assert.fail("should have a NullPointerException be throw"); //$NON-NLS-1$
-        } catch (NullPointerException e) {
-            // nothing to do
-        }
-        try {
-            dbMap2.put("key2", null); //$NON-NLS-1$
-            Assert.fail("should have a NullPointerException be throw"); //$NON-NLS-1$
-        } catch (NullPointerException e) {
-            // nothing to do
-        }
-        dbMap2.close();
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#remove(java.lang.Object)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#remove(java.lang.Object)}.
      */
     @Test
     public void testRemoveObject() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
         Assert.assertEquals(true, dbMap2.isEmpty());
         dbMap2.put("key1", 100l); //$NON-NLS-1$
         dbMap2.remove("key1"); //$NON-NLS-1$
@@ -262,32 +231,30 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#putAll(java.util.Map)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#putAll(java.util.Map)}.
      */
     @Test
     public void testPutAllMapOfQextendsStringQextendsLong() {
-        Map<TupleArray, Long> tempMap = new HashMap<TupleArray, Long>();
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap(dbMapParameter);
-        TupleArrayKeyMap dbMap2 = new TupleArrayKeyMap(dbMapParameter);
-        tempMap.put(new TupleArray(1, new String[] { "name1" }), 1l);
-        tempMap.put(new TupleArray(1, new String[] { "name2" }), 2l);
+        Map<String, Long> tempMap = new HashMap<String, Long>();
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap<String, Long> dbMap2 = new DBMap<String, Long>();
+        tempMap.put("name1", 1l); //$NON-NLS-1$
+        tempMap.put("name2", 2l); //$NON-NLS-1$
         dbMap1.putAll(tempMap);
         dbMap2.putAll(tempMap);
-        Assert.assertEquals(1l, dbMap1.get(new TupleArray(1, new String[] { "name1" })).longValue());
-        Assert.assertEquals(2l, dbMap2.get(new TupleArray(1, new String[] { "name2" })).longValue());
+        Assert.assertEquals(1l, dbMap1.get("name1").longValue()); //$NON-NLS-1$
+        Assert.assertEquals(2l, dbMap2.get("name2").longValue()); //$NON-NLS-1$
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#keySet()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#keySet()}.
      */
     @Test
     public void testKeySet() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
         dbMap1.put("name1", 1l); //$NON-NLS-1$
         dbMap1.put("name2", 2l); //$NON-NLS-1$
-        for (TupleArray key : dbMap1.keySet()) {
+        for (String key : dbMap1.keySet()) {
             Assert.assertNotNull(key);
             Assert.assertEquals(true, dbMap1.containsKey(key));
             Assert.assertNotNull(dbMap1.get(key));
@@ -295,12 +262,11 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#values()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#values()}.
      */
     @Test
     public void testValues() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
         dbMap1.put("name1", 1l); //$NON-NLS-1$
         dbMap1.put("name2", 2l); //$NON-NLS-1$
         for (long value : dbMap1.values()) {
@@ -310,14 +276,13 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#equals(java.lang.Object)}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#equals(java.lang.Object)}.
      */
     @Test
     public void testEqualsObject() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap(dbMapParameter);
-        TupleArrayKeyMap dbMap2 = dbMap1;
-        TupleArrayKeyMap dbMap3 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
+        DBMap dbMap2 = dbMap1;
+        DBMap<String, Long> dbMap3 = new DBMap<String, Long>();
         Assert.assertEquals(dbMap1, dbMap2);
         Assert.assertEquals(dbMap1, dbMap3);
         Assert.assertEquals(dbMap2, dbMap3);
@@ -335,16 +300,15 @@ public class DBMapTest {
     }
 
     /**
-     * Test method for {@link org.talend.commons.MapDB.utils.TupleArrayKeyMap#toString()}.
+     * Test method for {@link org.talend.commons.MapDB.utils.DBMap#toString()}.
      */
     @Test
     public void testToString() {
-        DBMapParameter dbMapParameter = null;
-        TupleArrayKeyMap dbMap1 = new TupleArrayKeyMap(dbMapParameter);
+        DBMap<String, Long> dbMap1 = new DBMap<String, Long>();
         Assert.assertEquals("{}", dbMap1.toString()); //$NON-NLS-1$
         dbMap1.put("name1", 1l); //$NON-NLS-1$
         dbMap1.put("name2", 2l); //$NON-NLS-1$
-        Assert.assertEquals("{Tuple[1, name1]=1, Tuple[1, name2]=2}", dbMap1.toString()); //$NON-NLS-1$
+        Assert.assertEquals("{name1=1, name2=2}", dbMap1.toString()); //$NON-NLS-1$
     }
 
 }

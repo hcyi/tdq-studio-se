@@ -73,7 +73,7 @@ public class DistinctCountIndicatorImpl extends IndicatorImpl implements Distinc
      * @return
      */
     private Set<Object> initValueForDBSet(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBSet<Object>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
         } else {
             return new HashSet<Object>();
@@ -242,7 +242,9 @@ public class DistinctCountIndicatorImpl extends IndicatorImpl implements Distinc
         // MOD msjian 2011-8-24 TDQ-1679: when run with java engine, the Duplicate count should contain "null"
         // if (data != null) {
         if (this.distinctObjects.add(data)) {
-            this.mustStoreRow = true;
+            if (this.checkMustStorCurrentRow()) {
+                this.mustStoreRow = true;
+            }
         }
         // }
         // TDQ-1679 ~
@@ -294,7 +296,7 @@ public class DistinctCountIndicatorImpl extends IndicatorImpl implements Distinc
     @Override
     public AbstractDB getMapDB(String dbName) {
         // is mapDB mode
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             // is get computeProcess map
             if (StandardDBName.computeProcess.name().equals(dbName) || StandardDBName.computeProcessSet.name().equals(dbName)) {
                 // current set is valid

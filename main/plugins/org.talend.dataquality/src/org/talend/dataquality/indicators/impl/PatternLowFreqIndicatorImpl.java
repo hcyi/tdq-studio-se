@@ -16,7 +16,7 @@ import org.talend.utils.string.AsciiUtils;
  * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class PatternLowFreqIndicatorImpl extends LowFrequencyIndicatorImpl implements PatternLowFreqIndicator {
@@ -27,6 +27,7 @@ public class PatternLowFreqIndicatorImpl extends LowFrequencyIndicatorImpl imple
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected PatternLowFreqIndicatorImpl() {
@@ -35,6 +36,7 @@ public class PatternLowFreqIndicatorImpl extends LowFrequencyIndicatorImpl imple
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -59,7 +61,7 @@ public class PatternLowFreqIndicatorImpl extends LowFrequencyIndicatorImpl imple
         if (data == null) {
             return super.handle(data);
         } else {
-            String parsedData = AsciiUtils.replaceCharacters(String.valueOf(data), this.charsToReplace, this.replacementChars);
+            String parsedData = convertCharacters(String.valueOf(data));
             return super.handle(parsedData);
         }
     }
@@ -67,8 +69,19 @@ public class PatternLowFreqIndicatorImpl extends LowFrequencyIndicatorImpl imple
     /**
      * add by zshen for feature 12919 to convertCharacter when save data into analysisDataSet with java engin
      */
+    @Override
     public String convertCharacters(String data) {
         return AsciiUtils.replaceCharacters(String.valueOf(data), this.charsToReplace, this.replacementChars);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.FrequencyIndicatorImpl#specialName(java.lang.Object)
+     */
+    @Override
+    protected String specialName(Object name) {
+        return convertCharacters(name.toString());
     }
 
 } // PatternLowFreqIndicatorImpl

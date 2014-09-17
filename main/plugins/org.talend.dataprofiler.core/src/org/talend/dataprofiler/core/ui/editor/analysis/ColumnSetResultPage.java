@@ -60,7 +60,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 import org.talend.commons.MapDB.utils.StandardDBName;
-import org.talend.commons.MapDB.utils.TupleArray;
 import org.talend.cwm.relational.TdColumn;
 import org.talend.dataprofiler.common.ui.editor.preview.chart.ChartDecorator;
 import org.talend.dataprofiler.common.ui.pagination.pageloder.MapDBPageLoader;
@@ -184,7 +183,7 @@ public class ColumnSetResultPage extends AbstractAnalysisResultPage implements P
         if (executeData == null || executeData.equals(PluginConstant.EMPTY_STRING)) {
             return;
         } else {
-            if (simpleStaticIndicator.isSaveTempDataToFile()) {
+            if (simpleStaticIndicator.isUsedMapDBMode()) {
                 this.createTableSectionPartForMapDB(sectionClient,
                         DefaultMessagesImpl.getString("ColumnSetResultPage.Data"), simpleStaticIndicator); //$NON-NLS-1$
             } else {
@@ -541,13 +540,7 @@ public class ColumnSetResultPage extends AbstractAnalysisResultPage implements P
         }
 
         public String getColumnText(Object element, int columnIndex) {
-            if (TupleArray.class.isInstance(element)) {
-                String[] keyArray = ((TupleArray) element).keyArray;
-                if (columnIndex < keyArray.length) {
-                    return keyArray[columnIndex];
-                }
-
-            } else if (List.class.isInstance(element)) {
+            if (List.class.isInstance(element)) {
                 String[] keyArray = ((List<?>) element).toArray(new String[((List<?>) element).size()]);
                 if (columnIndex < keyArray.length) {
                     return keyArray[columnIndex];

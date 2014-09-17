@@ -62,7 +62,7 @@ public class DBSet<E> extends AbstractDB<E> implements NavigableSet<E> {
             return;
         }
         initDefaultDB(parentFullPathStr, fileName);
-        this.limiteSize = limSize;
+        this.limitSize = limSize;
         initSet(setName);
     }
 

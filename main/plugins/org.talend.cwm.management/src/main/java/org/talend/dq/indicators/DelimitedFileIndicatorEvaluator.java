@@ -247,6 +247,7 @@ public class DelimitedFileIndicatorEvaluator extends IndicatorEvaluator {
     private void handleByARow(String[] rowValues, long currentRow, List<ModelElement> analysisElementList,
             List<MetadataColumn> columnElementList, EMap<Indicator, AnalyzedDataSet> indicToRowMap) {
         Object object = null;
+        int maxNumberRows = analysis.getParameters().getMaxNumberRows();
         int recordIncrement = 0;
         element: for (int i = 0; i < analysisElementList.size(); i++) {
             MetadataColumn mColumn = (MetadataColumn) analysisElementList.get(i);
@@ -272,6 +273,7 @@ public class DelimitedFileIndicatorEvaluator extends IndicatorEvaluator {
             object = TalendTypeConvert.convertToObject(mColumn.getTalendType(), rowValues[position], mColumn.getPattern());
             List<Indicator> indicators = getIndicators(mColumn.getLabel());
             for (Indicator indicator : indicators) {
+                indicator.setDrillDownLimitSize(Long.valueOf(maxNumberRows));
                 if (!continueRun()) {
                     break element;
                 }
@@ -289,45 +291,57 @@ public class DelimitedFileIndicatorEvaluator extends IndicatorEvaluator {
                 if (analyzedDataSet == null) {
                     analyzedDataSet = AnalysisFactory.eINSTANCE.createAnalyzedDataSet();
                     indicToRowMap.put(indicator, analyzedDataSet);
-                    analyzedDataSet.setDataCount(analysis.getParameters().getMaxNumberRows());
+                    analyzedDataSet.setDataCount(maxNumberRows);
                     analyzedDataSet.setRecordSize(0);
                 }
-                if (analysis.getParameters().isStoreData() && indicator.mustStoreRow()) {
-                    List<Object[]> valueObjectList = initDataSet(indicator, indicToRowMap, object);
-                    recordIncrement = valueObjectList.size();
-                    Object[] valueObject = new Object[rowValues.length];
-                    for (int j = 0; j < rowValues.length; j++) {
-                        Object newobject = rowValues[j];
-                        if (recordIncrement < analysis.getParameters().getMaxNumberRows()) {
-                            if (recordIncrement < valueObjectList.size()) {
-                                valueObjectList.get(recordIncrement)[j] = newobject;
+                // TDQ-9413: fix the drill down for file connection get no values
+                // see IndicatorEvaluator line 166, the logic is almost the same
+                if (analysis.getParameters().isStoreData()) {
+                    if (indicator.mustStoreRow()) {
+                        List<Object[]> valueObjectList = initDataSet(indicator, indicToRowMap, object);
+                        recordIncrement = valueObjectList.size();
+
+                        for (int j = 0; j < rowValues.length; j++) {
+                            Object newobject = rowValues[j];
+
+                            if (indicator.isUsedMapDBMode()) {
+                                indicator.handleDrillDownData(object, newobject, rowValues.length, j, mColumn.getLabel());
+                                continue;
                             } else {
-                                valueObject[j] = newobject;
-                                valueObjectList.add(valueObject);
+                                if (recordIncrement < maxNumberRows) {
+                                    if (recordIncrement < valueObjectList.size()) {
+                                        valueObjectList.get(recordIncrement)[j] = newobject;
+                                    } else {
+                                        Object[] valueObject = new Object[rowValues.length];
+                                        valueObject[j] = newobject;
+                                        valueObjectList.add(valueObject);
+                                    }
+                                } else {
+                                    break;
+                                }
                             }
                         }
-                    }
-                } else if (indicator instanceof UniqueCountIndicator
-                        && analysis.getResults().getIndicToRowMap().get(indicator).getData() != null) {
-                    List<Object[]> removeValueObjectList = analysis.getResults().getIndicToRowMap().get(indicator).getData();
-                    if (columnElementList.size() == 0) {
-                        continue;
-                    }
-                    int offsetting = columnElementList.indexOf(indicator.getAnalyzedElement());
-                    for (Object[] dataObject : removeValueObjectList) {
-                        // Added yyin 20120611 TDQ5279
-                        if (object instanceof Integer) {
-                            if (object.equals(Integer.parseInt((String) dataObject[offsetting]))) {
+                    } else if (indicator instanceof UniqueCountIndicator
+                            && analysis.getResults().getIndicToRowMap().get(indicator).getData() != null) {
+                        List<Object[]> removeValueObjectList = analysis.getResults().getIndicToRowMap().get(indicator).getData();
+                        if (columnElementList.size() == 0) {
+                            continue;
+                        }
+                        int offsetting = columnElementList.indexOf(indicator.getAnalyzedElement());
+                        for (Object[] dataObject : removeValueObjectList) {
+                            // Added yyin 20120611 TDQ5279
+                            if (object instanceof Integer) {
+                                if (object.equals(Integer.parseInt((String) dataObject[offsetting]))) {
+                                    removeValueObjectList.remove(dataObject);
+                                    break;
+                                }
+                            }// ~
+                            if (dataObject[offsetting].equals(object)) {
                                 removeValueObjectList.remove(dataObject);
                                 break;
                             }
-                        }// ~
-                        if (dataObject[offsetting].equals(object)) {
-                            removeValueObjectList.remove(dataObject);
-                            break;
                         }
                     }
-
                 }
             }
 

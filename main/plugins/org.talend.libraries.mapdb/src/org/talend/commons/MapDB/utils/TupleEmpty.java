@@ -18,7 +18,7 @@ import java.io.Serializable;
  * created by talend on Aug 5, 2014 Detailled comment
  * 
  */
-public final class TupleEmpty implements Comparable<TupleArray>, Serializable {
+public final class TupleEmpty implements Comparable<Object>, Serializable {
 
     /**
      * 
@@ -31,7 +31,7 @@ public final class TupleEmpty implements Comparable<TupleArray>, Serializable {
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
-    public int compareTo(TupleArray o) {
+    public int compareTo(Object o) {
         return 0;
     }
 
@@ -42,7 +42,7 @@ public final class TupleEmpty implements Comparable<TupleArray>, Serializable {
      */
     @Override
     public String toString() {
-        return "null";
+        return "null"; //$NON-NLS-1$
     }
 
     /*

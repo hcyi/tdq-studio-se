@@ -31,7 +31,7 @@ public abstract class AbstractDB<K> {
 
     private DB db = null;
 
-    protected Long limiteSize = 0l;
+    protected Long limitSize = 0l;
 
     public static final Object EMPTY = new TupleEmpty();
 
@@ -49,14 +49,17 @@ public abstract class AbstractDB<K> {
             return;
         }
         DBMaker<?> fileDBMaker = DBMaker.newFileDB(dbFile);
-        if (limiteSize > 0) {
-            fileDBMaker = fileDBMaker.mmapFileEnablePartial();
-        } else {
-            fileDBMaker = fileDBMaker.mmapFileEnable();
-        }
-        db = fileDBMaker.sizeLimit(2).cacheSize(1024 * 1024).transactionDisable().closeOnJvmShutdown().make();
+        fileDBMaker = fileDBMaker.mmapFileEnablePartial();
+        db = fileDBMaker.cacheSize(12 * 1024).transactionDisable().closeOnJvmShutdown().make();
         MapDBFactory.getInstance().putDB(dbFile, db);
 
+    }
+
+    public void clearDB() {
+        for (String catalogName : db.getAll().keySet()) {
+            db.delete(catalogName);
+        }
+        this.getDB().getEngine().clearCache();
     }
 
     protected void initDefaultDB() {
@@ -264,7 +267,7 @@ public abstract class AbstractDB<K> {
      * @return the limiteSize
      */
     public Long getLimiteSize() {
-        return this.limiteSize;
+        return this.limitSize;
     }
 
     /**
@@ -273,7 +276,7 @@ public abstract class AbstractDB<K> {
      * @param limiteSize the limiteSize to set
      */
     public void setLimiteSize(Long limiteSize) {
-        this.limiteSize = limiteSize;
+        this.limitSize = limiteSize;
     }
 
     public abstract int size();

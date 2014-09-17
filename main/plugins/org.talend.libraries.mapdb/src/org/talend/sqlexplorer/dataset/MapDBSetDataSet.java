@@ -10,47 +10,38 @@
 // 9 rue Pages 92150 Suresnes, France
 //
 // ============================================================================
-package net.sourceforge.sqlexplorer.dataset.mapdb;
+package org.talend.sqlexplorer.dataset;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.sqlexplorer.Messages;
 import net.sourceforge.sqlexplorer.dataset.DataSet;
 import net.sourceforge.sqlexplorer.dataset.DataSetRow;
 
-import org.talend.commons.MapDB.utils.ColumnFilter;
-import org.talend.commons.MapDB.utils.DBMap;
+import org.talend.commons.MapDB.utils.DBSet;
 
 /**
- * created by talend on Aug 27, 2014 Detailled comment
+ * created by talend on Aug 29, 2014 Detailled comment
  * 
  */
-public class MapDBDataSet extends TalendDataSet {
+public class MapDBSetDataSet extends MapDBDataSet {
 
-    protected DBMap<Object, List<Object>> dataMap = null;
-
-    protected int currentIndex = 0;
-
-    protected Iterator<Object> iterator = null;
-
-    protected ColumnFilter columnFilter = null;
+    protected DBSet<Object> dataSet = null;
 
     /**
-     * DOC talend MapDBDataSet constructor comment.
+     * DOC talend MapDBSetDataSet constructor comment.
      * 
      * @param columnLabels
      * @param data
      */
-    public MapDBDataSet(String[] columnLabels, Comparable[][] data, int pageSize) {
+    public MapDBSetDataSet(String[] columnLabels, Comparable[][] data, int pageSize) {
         super(columnLabels, data, pageSize);
     }
 
-    public MapDBDataSet(String[] columnLabels, DBMap<Object, List<Object>> imputDBMap, int pageSize, ColumnFilter cfilter) {
+    public MapDBSetDataSet(String[] columnLabels, DBSet<Object> imputDBSet, int pageSize) {
         super(columnLabels, new Comparable[0][0], pageSize);
-        this.dataMap = imputDBMap;
-        iterator = dataMap.iterator();
-        this.columnFilter = cfilter;
+        this.dataSet = imputDBSet;
+        iterator = dataSet.iterator();
     }
 
     /*
@@ -60,8 +51,8 @@ public class MapDBDataSet extends TalendDataSet {
      */
     @Override
     public int getRowCount() {
-        if (dataMap != null) {
-            return dataMap.size();
+        if (dataSet != null) {
+            return dataSet.size();
         } else {
             return super.getRowCount();
         }
@@ -82,27 +73,17 @@ public class MapDBDataSet extends TalendDataSet {
                 throw new IndexOutOfBoundsException(Messages.getString("DataSet.errorIndexOutOfRange") + index);
             }
             if (currentIndex > index) {
-                iterator = dataMap.iterator();
+                iterator = dataSet.iterator();
                 currentIndex = 0;
             }
-            while (currentIndex < index && iterator.hasNext()) {
+            while (currentIndex < index) {
                 iterator.next();
                 currentIndex++;
             }
             Object currentData = iterator.next();
             currentIndex++;
-            List<Object> valueList = dataMap.get(currentData);
-            if (columnFilter != null) {
-                valueList = columnFilter.filter(valueList);
-            }
-            Comparable[] comparable = new Comparable[valueList.size()];
-            for (int i = 0; i < valueList.size(); i++) {
-                comparable[i] = (Comparable) valueList.get(i);
-            }
-            if (comparable.length == 0) {
-                comparable = new Comparable[1];
-                comparable[0] = null;
-            }
+            Comparable[] comparable = new Comparable[1];
+            comparable[1] = (Comparable) currentData;
             returnDataSetRow = new DataSetRow(this, comparable);
             return returnDataSetRow;
         }
@@ -115,11 +96,9 @@ public class MapDBDataSet extends TalendDataSet {
      */
     @Override
     public DataSet getCurrentPageDataSet() {
-        long pageSize = endIndex - startIndex;
-        Comparable[][] compareArray = new Comparable[(int) (pageSize)][this.getColumns().length];
-        List<Object[]> subList = this.dataMap.subList(startIndex, endIndex, null);
-        subList = columnFilter.filterArray(subList);
-        for (int i = 0; i < pageSize; i++) {
+        Comparable[][] compareArray = new Comparable[(int) (endIndex - startIndex)][this.getColumns().length];
+        List<Object[]> subList = this.dataSet.subList(startIndex, endIndex, null);
+        for (int i = 0; i < endIndex - startIndex; i++) {
             Object[] objArray = subList.get(i);
             for (int j = 0; j < this.getColumns().length; j++) {
                 compareArray[i][j] = (Comparable) objArray[j];

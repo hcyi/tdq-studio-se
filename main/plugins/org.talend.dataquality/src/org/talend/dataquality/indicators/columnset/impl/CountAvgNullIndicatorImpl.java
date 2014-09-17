@@ -1,7 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
+ * <copyright> </copyright>
+ * 
  * $Id$
  */
 package org.talend.dataquality.indicators.columnset.impl;
@@ -11,18 +10,18 @@ import org.talend.dataquality.indicators.columnset.ColumnsetPackage;
 import org.talend.dataquality.indicators.columnset.CountAvgNullIndicator;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Count Avg Null Indicator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Count Avg Null Indicator</b></em>'. <!--
+ * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class CountAvgNullIndicatorImpl extends ColumnSetMultiValueIndicatorImpl implements CountAvgNullIndicator {
+
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected CountAvgNullIndicatorImpl() {
@@ -30,8 +29,8 @@ public class CountAvgNullIndicatorImpl extends ColumnSetMultiValueIndicatorImpl 
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -39,4 +38,14 @@ public class CountAvgNullIndicatorImpl extends ColumnSetMultiValueIndicatorImpl 
         return ColumnsetPackage.Literals.COUNT_AVG_NULL_INDICATOR;
     }
 
-} //CountAvgNullIndicatorImpl
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isUsedMapDBMode()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
+    }
+
+} // CountAvgNullIndicatorImpl

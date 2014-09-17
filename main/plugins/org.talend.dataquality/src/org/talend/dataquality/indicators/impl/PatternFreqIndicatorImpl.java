@@ -16,7 +16,7 @@ import org.talend.utils.string.AsciiUtils;
  * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class PatternFreqIndicatorImpl extends FrequencyIndicatorImpl implements PatternFreqIndicator {
@@ -27,6 +27,7 @@ public class PatternFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected PatternFreqIndicatorImpl() {
@@ -35,6 +36,7 @@ public class PatternFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -51,6 +53,7 @@ public class PatternFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
     /**
      * add by zshen for feature 12919 to convertCharacter when save data into analysisDataSet with java engin
      */
+    @Override
     public String convertCharacters(String data) {
         return AsciiUtils.replaceCharacters(String.valueOf(data), this.charsToReplace, this.replacementChars);
     }
@@ -69,13 +72,22 @@ public class PatternFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
 
     @Override
     public boolean handle(Object data) {
-        mustStoreRow = true;
         if (data == null) {
             return super.handle(data);
         } else {
-            String parsedData = AsciiUtils.replaceCharacters(String.valueOf(data), this.charsToReplace, this.replacementChars);
+            String parsedData = convertCharacters(String.valueOf(data));
             return super.handle(parsedData);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.FrequencyIndicatorImpl#specialName(java.lang.Object)
+     */
+    @Override
+    protected String specialName(Object name) {
+        return convertCharacters(name.toString());
     }
 
 } // PatternFreqIndicatorImpl

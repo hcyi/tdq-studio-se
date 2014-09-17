@@ -427,7 +427,7 @@ public class AllMatchIndicatorImpl extends ColumnSetMultiValueIndicatorImpl impl
     private boolean computeCounts(Object[] row) {
         boolean isAMatch = false;
         // loop all columns of the row
-        for (int i = 0; i < row.length - 1; i++) {
+        for (int i = 0; i < row.length; i++) {
             if (null != patterns[i]) {
                 // loop all pattern of the column
                 for (java.util.regex.Pattern p : patterns[i]) {

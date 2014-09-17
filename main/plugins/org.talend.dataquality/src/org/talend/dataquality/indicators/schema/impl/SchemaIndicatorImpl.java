@@ -28,26 +28,30 @@ import org.talend.dataquality.indicators.schema.ViewIndicator;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableCount <em>Table Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getKeyCount <em>Key Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getIndexCount <em>Index Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewCount <em>View Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTriggerCount <em>Trigger Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableRowCount <em>Table Row Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableIndicators <em>Table Indicators</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewRowCount <em>View Row Count</em>}</li>
- *   <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewIndicators <em>View Indicators</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableCount <em>Table Count</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getKeyCount <em>Key Count</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getIndexCount <em>Index Count</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewCount <em>View Count</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTriggerCount <em>Trigger Count</em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableRowCount <em>Table Row Count
+ * </em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getTableIndicators <em>Table Indicators
+ * </em>}</li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewRowCount <em>View Row Count</em>}
+ * </li>
+ * <li>{@link org.talend.dataquality.indicators.schema.impl.SchemaIndicatorImpl#getViewIndicators <em>View Indicators
+ * </em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements SchemaIndicator {
 
     /**
-     * The default value of the '{@link #getTableCount() <em>Table Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The default value of the '{@link #getTableCount() <em>Table Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getTableCount()
      * @generated
      * @ordered
@@ -55,9 +59,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final int TABLE_COUNT_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getTableCount() <em>Table Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The cached value of the '{@link #getTableCount() <em>Table Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getTableCount()
      * @generated
      * @ordered
@@ -65,9 +69,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected int tableCount = TABLE_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getKeyCount() <em>Key Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The default value of the '{@link #getKeyCount() <em>Key Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getKeyCount()
      * @generated
      * @ordered
@@ -75,9 +79,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final int KEY_COUNT_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getKeyCount() <em>Key Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The cached value of the '{@link #getKeyCount() <em>Key Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getKeyCount()
      * @generated
      * @ordered
@@ -85,9 +89,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected int keyCount = KEY_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getIndexCount() <em>Index Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The default value of the '{@link #getIndexCount() <em>Index Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getIndexCount()
      * @generated
      * @ordered
@@ -95,9 +99,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final int INDEX_COUNT_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getIndexCount() <em>Index Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The cached value of the '{@link #getIndexCount() <em>Index Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getIndexCount()
      * @generated
      * @ordered
@@ -105,9 +109,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected int indexCount = INDEX_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getViewCount() <em>View Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The default value of the '{@link #getViewCount() <em>View Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getViewCount()
      * @generated
      * @ordered
@@ -115,9 +119,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final int VIEW_COUNT_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getViewCount() <em>View Count</em>}' attribute.
-     * <!-- begin-user-doc --> <!--
+     * The cached value of the '{@link #getViewCount() <em>View Count</em>}' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @see #getViewCount()
      * @generated
      * @ordered
@@ -125,9 +129,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected int viewCount = VIEW_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getTriggerCount() <em>Trigger Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+     * The default value of the '{@link #getTriggerCount() <em>Trigger Count</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getTriggerCount()
      * @generated
      * @ordered
@@ -135,9 +139,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final int TRIGGER_COUNT_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getTriggerCount() <em>Trigger Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getTriggerCount() <em>Trigger Count</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getTriggerCount()
      * @generated
      * @ordered
@@ -145,9 +149,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected int triggerCount = TRIGGER_COUNT_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getTableRowCount() <em>Table Row Count</em>}' attribute.
-     * <!-- begin-user-doc
+     * The default value of the '{@link #getTableRowCount() <em>Table Row Count</em>}' attribute. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
+     * 
      * @see #getTableRowCount()
      * @generated
      * @ordered
@@ -155,9 +159,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final long TABLE_ROW_COUNT_EDEFAULT = 0L;
 
     /**
-     * The cached value of the '{@link #getTableRowCount() <em>Table Row Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getTableRowCount() <em>Table Row Count</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getTableRowCount()
      * @generated
      * @ordered
@@ -167,6 +171,7 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     /**
      * The cached value of the '{@link #getTableIndicators() <em>Table Indicators</em>}' containment reference list.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getTableIndicators()
      * @generated
      * @ordered
@@ -174,9 +179,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected EList<TableIndicator> tableIndicators;
 
     /**
-     * The default value of the '{@link #getViewRowCount() <em>View Row Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+     * The default value of the '{@link #getViewRowCount() <em>View Row Count</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getViewRowCount()
      * @generated
      * @ordered
@@ -184,9 +189,9 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     protected static final long VIEW_ROW_COUNT_EDEFAULT = 0L;
 
     /**
-     * The cached value of the '{@link #getViewRowCount() <em>View Row Count</em>}' attribute.
-     * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getViewRowCount() <em>View Row Count</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * 
      * @see #getViewRowCount()
      * @generated
      * @ordered
@@ -205,6 +210,7 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected SchemaIndicatorImpl() {
@@ -213,6 +219,7 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -222,41 +229,53 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public EList<TableIndicator> getTableIndicators() {
         if (tableIndicators == null) {
-            tableIndicators = new EObjectContainmentEList<TableIndicator>(TableIndicator.class, this, SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS);
+            tableIndicators = new EObjectContainmentEList<TableIndicator>(TableIndicator.class, this,
+                    SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS);
         }
         return tableIndicators;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public long getViewRowCount() {
         return viewRowCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setViewRowCount(long newViewRowCount) {
         long oldViewRowCount = viewRowCount;
         viewRowCount = newViewRowCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT, oldViewRowCount, viewRowCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT,
+                    oldViewRowCount, viewRowCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public EList<ViewIndicator> getViewIndicators() {
         if (viewIndicators == null) {
-            viewIndicators = new EObjectContainmentEList<ViewIndicator>(ViewIndicator.class, this, SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS);
+            viewIndicators = new EObjectContainmentEList<ViewIndicator>(ViewIndicator.class, this,
+                    SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS);
         }
         return viewIndicators;
     }
@@ -266,6 +285,7 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
      * 
      * @generated NOT
      */
+    @Override
     public boolean addTableIndicator(TableIndicator tableIndicator) {
         return this.getTableIndicators().add(tableIndicator);
     }
@@ -275,283 +295,328 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
      * 
      * @generated NOT
      */
+    @Override
     public boolean addViewIndicator(ViewIndicator viewIndicator) {
         return this.getViewIndicators().add(viewIndicator);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
-                return ((InternalEList<?>)getTableIndicators()).basicRemove(otherEnd, msgs);
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
-                return ((InternalEList<?>)getViewIndicators()).basicRemove(otherEnd, msgs);
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
+            return ((InternalEList<?>) getTableIndicators()).basicRemove(otherEnd, msgs);
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
+            return ((InternalEList<?>) getViewIndicators()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public int getTableCount() {
         return tableCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setTableCount(int newTableCount) {
         int oldTableCount = tableCount;
         tableCount = newTableCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT, oldTableCount, tableCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT, oldTableCount,
+                    tableCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public int getKeyCount() {
         return keyCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setKeyCount(int newKeyCount) {
         int oldKeyCount = keyCount;
         keyCount = newKeyCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT, oldKeyCount, keyCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT, oldKeyCount,
+                    keyCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public int getIndexCount() {
         return indexCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setIndexCount(int newIndexCount) {
         int oldIndexCount = indexCount;
         indexCount = newIndexCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT, oldIndexCount, indexCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT, oldIndexCount,
+                    indexCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public int getViewCount() {
         return viewCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setViewCount(int newViewCount) {
         int oldViewCount = viewCount;
         viewCount = newViewCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT, oldViewCount, viewCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT, oldViewCount,
+                    viewCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public int getTriggerCount() {
         return triggerCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setTriggerCount(int newTriggerCount) {
         int oldTriggerCount = triggerCount;
         triggerCount = newTriggerCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT, oldTriggerCount, triggerCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT, oldTriggerCount,
+                    triggerCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public long getTableRowCount() {
         return tableRowCount;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
+    @Override
     public void setTableRowCount(long newTableRowCount) {
         long oldTableRowCount = tableRowCount;
         tableRowCount = newTableRowCount;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT, oldTableRowCount, tableRowCount));
+        if (eNotificationRequired()) {
+            eNotify(new ENotificationImpl(this, Notification.SET, SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT,
+                    oldTableRowCount, tableRowCount));
+        }
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
-                return getTableCount();
-            case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
-                return getKeyCount();
-            case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
-                return getIndexCount();
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
-                return getViewCount();
-            case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
-                return getTriggerCount();
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
-                return getTableRowCount();
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
-                return getTableIndicators();
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
-                return getViewRowCount();
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
-                return getViewIndicators();
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
+            return getTableCount();
+        case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
+            return getKeyCount();
+        case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
+            return getIndexCount();
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
+            return getViewCount();
+        case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
+            return getTriggerCount();
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
+            return getTableRowCount();
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
+            return getTableIndicators();
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
+            return getViewRowCount();
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
+            return getViewIndicators();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
-                setTableCount((Integer)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
-                setKeyCount((Integer)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
-                setIndexCount((Integer)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
-                setViewCount((Integer)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
-                setTriggerCount((Integer)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
-                setTableRowCount((Long)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
-                getTableIndicators().clear();
-                getTableIndicators().addAll((Collection<? extends TableIndicator>)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
-                setViewRowCount((Long)newValue);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
-                getViewIndicators().clear();
-                getViewIndicators().addAll((Collection<? extends ViewIndicator>)newValue);
-                return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
+            setTableCount((Integer) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
+            setKeyCount((Integer) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
+            setIndexCount((Integer) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
+            setViewCount((Integer) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
+            setTriggerCount((Integer) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
+            setTableRowCount((Long) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
+            getTableIndicators().clear();
+            getTableIndicators().addAll((Collection<? extends TableIndicator>) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
+            setViewRowCount((Long) newValue);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
+            getViewIndicators().clear();
+            getViewIndicators().addAll((Collection<? extends ViewIndicator>) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
-                setTableCount(TABLE_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
-                setKeyCount(KEY_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
-                setIndexCount(INDEX_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
-                setViewCount(VIEW_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
-                setTriggerCount(TRIGGER_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
-                setTableRowCount(TABLE_ROW_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
-                getTableIndicators().clear();
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
-                setViewRowCount(VIEW_ROW_COUNT_EDEFAULT);
-                return;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
-                getViewIndicators().clear();
-                return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
+            setTableCount(TABLE_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
+            setKeyCount(KEY_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
+            setIndexCount(INDEX_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
+            setViewCount(VIEW_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
+            setTriggerCount(TRIGGER_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
+            setTableRowCount(TABLE_ROW_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
+            getTableIndicators().clear();
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
+            setViewRowCount(VIEW_ROW_COUNT_EDEFAULT);
+            return;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
+            getViewIndicators().clear();
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
-                return tableCount != TABLE_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
-                return keyCount != KEY_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
-                return indexCount != INDEX_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
-                return viewCount != VIEW_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
-                return triggerCount != TRIGGER_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
-                return tableRowCount != TABLE_ROW_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
-                return tableIndicators != null && !tableIndicators.isEmpty();
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
-                return viewRowCount != VIEW_ROW_COUNT_EDEFAULT;
-            case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
-                return viewIndicators != null && !viewIndicators.isEmpty();
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_COUNT:
+            return tableCount != TABLE_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__KEY_COUNT:
+            return keyCount != KEY_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__INDEX_COUNT:
+            return indexCount != INDEX_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_COUNT:
+            return viewCount != VIEW_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__TRIGGER_COUNT:
+            return triggerCount != TRIGGER_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_ROW_COUNT:
+            return tableRowCount != TABLE_ROW_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__TABLE_INDICATORS:
+            return tableIndicators != null && !tableIndicators.isEmpty();
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_ROW_COUNT:
+            return viewRowCount != VIEW_ROW_COUNT_EDEFAULT;
+        case SchemaPackage.SCHEMA_INDICATOR__VIEW_INDICATORS:
+            return viewIndicators != null && !viewIndicators.isEmpty();
         }
         return super.eIsSet(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public String toString() {
-        if (eIsProxy()) return super.toString();
+        if (eIsProxy()) {
+            return super.toString();
+        }
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (tableCount: ");
@@ -595,5 +660,15 @@ public class SchemaIndicatorImpl extends CompositeIndicatorImpl implements Schem
     @Override
     public EList<Indicator> getChildIndicators() {
         return new BasicEList<Indicator>(0);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isUsedMapDBMode()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
     }
 } // SchemaIndicatorImpl

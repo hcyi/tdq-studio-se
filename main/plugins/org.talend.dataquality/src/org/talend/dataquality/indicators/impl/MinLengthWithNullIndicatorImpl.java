@@ -56,8 +56,12 @@ public class MinLengthWithNullIndicatorImpl extends MinLengthIndicatorImpl imple
     public boolean handle(Object data) {
         boolean ok = super.handle(data);
         if (data == null) {
-            length = new Long(0);
-            mustStoreRow = true;
+            if (length > 0) {
+                changeLength(0);
+            }
+            if (this.checkMustStorCurrentRow()) {
+                mustStoreRow = true;
+            }
         }
         return ok;
     }

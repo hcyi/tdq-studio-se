@@ -476,4 +476,14 @@ public class RecordMatchingIndicatorImpl extends ColumnSetMultiValueIndicatorImp
         return result.toString();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isSaveTempDataToFile()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
+    }
+
 } // RecordMatchingIndicatorImpl

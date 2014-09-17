@@ -33,7 +33,7 @@ public class SoundexFreqIndicatorImplTest {
         // mapDB case
         SoundexFreqIndicator soundexFreqIndicator = IndicatorsFactory.eINSTANCE.createSoundexFreqIndicator();
         soundexFreqIndicator.reset();
-        soundexFreqIndicator.setSaveTempDataToFile(true);
+        soundexFreqIndicator.setUsedMapDBMode(true);
         soundexFreqIndicator.handle(empty);
         soundexFreqIndicator.handle("mac");
         soundexFreqIndicator.handle("mic");
@@ -60,7 +60,7 @@ public class SoundexFreqIndicatorImplTest {
         // java case
         soundexFreqIndicator = IndicatorsFactory.eINSTANCE.createSoundexFreqIndicator();
         soundexFreqIndicator.reset();
-        soundexFreqIndicator.setSaveTempDataToFile(false);
+        soundexFreqIndicator.setUsedMapDBMode(false);
         soundexFreqIndicator.handle(empty);
         soundexFreqIndicator.handle("mac");
         soundexFreqIndicator.handle("mic");

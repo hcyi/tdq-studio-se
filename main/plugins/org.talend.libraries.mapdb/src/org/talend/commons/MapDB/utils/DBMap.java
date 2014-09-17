@@ -67,15 +67,13 @@ public class DBMap<K, V> extends AbstractDB<K> implements ConcurrentNavigableMap
             return;
         }
         initDefaultDB(parentFullPathStr, fileName);
-        this.limiteSize = limSize;
+        this.limitSize = limSize;
         initMap(mapName);
     }
 
     protected void initMap() {
-
         dbMap = getDB().createTreeMap(mapName).keySerializer(talendBasicKeySerializer).comparator(new DBMapCompartor())
                 .valueSerializer(talendSerializerBase).make();
-
     }
 
     protected void initMap(String theMapName) {
@@ -86,7 +84,6 @@ public class DBMap<K, V> extends AbstractDB<K> implements ConcurrentNavigableMap
             dbMap = getDB().createTreeMap(mapName).keySerializer(talendBasicKeySerializer).comparator(new DBMapCompartor())
                     .valueSerializer(talendSerializerBase).make();
         }
-
     }
 
     public <VV> BTreeMap<K, VV> pumpSource(Fun.Function1<VV, K> valueExtractor) {
@@ -97,7 +94,7 @@ public class DBMap<K, V> extends AbstractDB<K> implements ConcurrentNavigableMap
                 Serializer.BASIC);
 
         String randomString = randomString(10);
-        BTreeMap<K, VV> make = getDB().createTreeMap("map" + randomString).pumpSource(sortIterator, valueExtractor)
+        BTreeMap<K, VV> make = getDB().createTreeMap("map" + randomString).pumpSource(sortIterator, valueExtractor) //$NON-NLS-1$
                 .keySerializer(talendBasicKeySerializer).comparator(dbMapCompartor).valueSerializer(talendSerializerBase)
                 .makeOrGet();
         return make;
@@ -111,7 +108,7 @@ public class DBMap<K, V> extends AbstractDB<K> implements ConcurrentNavigableMap
      * @return
      */
     public String randomString(int size) {
-        String chars = "0123456789abcdefghijklmnopqrstuvwxyz !@#$%^&*()_+=-{}[]:\",./<>?|\\";
+        String chars = "0123456789abcdefghijklmnopqrstuvwxyz !@#$%^&*()_+=-{}[]:\",./<>?|\\"; //$NON-NLS-1$
         StringBuilder b = new StringBuilder(size);
         Random r = new Random();
         for (int i = 0; i < size; i++) {
@@ -145,7 +142,6 @@ public class DBMap<K, V> extends AbstractDB<K> implements ConcurrentNavigableMap
      * 
      * @see java.util.Map#containsKey(java.lang.Object)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public boolean containsKey(Object key) {
         if (key == null) {

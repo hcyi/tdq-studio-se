@@ -6,15 +6,16 @@
 package org.talend.dataquality.indicators.impl;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.talend.commons.MapDB.utils.AbstractDB;
+import org.talend.commons.MapDB.utils.DBMap;
+import org.talend.commons.MapDB.utils.StandardDBName;
 import org.talend.dataquality.helpers.IndicatorHelper;
 import org.talend.dataquality.indicators.IndicatorParameters;
 import org.talend.dataquality.indicators.IndicatorsFactory;
@@ -212,23 +213,28 @@ public class LengthIndicatorImpl extends IndicatorImpl implements LengthIndicato
     @Override
     public boolean reset() {
         this.length = LENGTH_EDEFAULT;
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             clearDrillDownMaps();
         }
         return super.reset();
     }
 
     /**
+     * Change length attribute
+     * 
+     * @param strLength
+     */
+    protected void changeLength(final int strLength) {
+        this.resetDrillDownRowCount();
+        length = Long.valueOf(strLength);
+    }
+
+    /**
      * DOC talend Comment method "clearDrillDownMaps".
      */
     private void clearDrillDownMaps() {
-        Iterator<String> iterator = dbNameSet.iterator();
-        while (iterator.hasNext()) {
-            String dbName = iterator.next();
-            Map<Object, List<Object>> mapDB = (Map<Object, List<Object>>) getMapDB(dbName);
-            mapDB.clear();
-        }
-
+        AbstractDB<?> mapDB = getMapDB(StandardDBName.drillDown.name());
+        mapDB.clearDB();
     }
 
     /*
@@ -241,8 +247,7 @@ public class LengthIndicatorImpl extends IndicatorImpl implements LengthIndicato
     public void handleDrillDownData(Object masterObject, Object currentObject, int columnCount, int currentIndex,
             String currentColumnName) {
         String dbName = getDBName(masterObject);
-        dbNameSet.add(dbName);
-        drillDownMap = (Map<Object, List<Object>>) getMapDB(dbName);
+        drillDownMap = (DBMap<Object, List<Object>>) getMapDB(dbName);
         super.handleDrillDownData(masterObject, currentObject, columnCount, currentIndex, currentColumnName);
     }
 

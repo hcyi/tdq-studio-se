@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import net.sourceforge.sqlexplorer.dataset.DataSet;
-import net.sourceforge.sqlexplorer.dataset.mapdb.MapDBColumnSetDataSet;
-import net.sourceforge.sqlexplorer.dataset.mapdb.MapDBDataSet;
-import net.sourceforge.sqlexplorer.dataset.mapdb.MapDBSetDataSet;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.nebula.widgets.pagination.PageableController;
@@ -58,6 +55,9 @@ import org.talend.dataquality.indicators.UniqueCountIndicator;
 import org.talend.dataquality.indicators.columnset.SimpleStatIndicator;
 import org.talend.dq.indicators.preview.table.ChartDataEntity;
 import org.talend.dq.indicators.preview.table.PatternChartDataEntity;
+import org.talend.sqlexplorer.dataset.MapDBColumnSetDataSet;
+import org.talend.sqlexplorer.dataset.MapDBDataSet;
+import org.talend.sqlexplorer.dataset.MapDBSetDataSet;
 import orgomg.cwm.objectmodel.core.ModelElement;
 
 /**
@@ -274,7 +274,23 @@ public class DrillDownEditorInput implements IEditorInput {
             return new MapDBSetDataSet(columnHeader, (DBSet<Object>) mapDB, controller.getPageSize());
         } else {
             ColumnFilter columnFilter = getColumnFilter();
-            return new MapDBDataSet(columnHeader, (DBMap<Object, List<Object>>) mapDB, controller.getPageSize(), columnFilter);
+            Long itemSize = getItemSize(mapDB);
+            return new MapDBDataSet(columnHeader, (DBMap<Object, List<Object>>) mapDB, controller.getPageSize(), columnFilter,
+                    itemSize);
+        }
+    }
+
+    /**
+     * DOC talend Comment method "getPageSize".
+     * 
+     * @param controller
+     * @return
+     */
+    private Long getItemSize(AbstractDB<?> mapDB) {
+        if (DrillDownEditorInput.judgeMenuType(getMenuType(), DrillDownEditorInput.MENU_VALUE_TYPE)) {
+            return getCurrentIndicatorResultSize();
+        } else {
+            return Long.valueOf(mapDB.size());
         }
     }
 
@@ -299,6 +315,33 @@ public class DrillDownEditorInput implements IEditorInput {
      * @return
      */
     public Long getCurrentIndicatorResultSize() {
+        Long itemsSize = 0l;
+        if (isColumnSetIndicator()) {
+            itemsSize = getColumnSetIndicatorResultSize();
+        } else {
+            itemsSize = currIndicator.getIntegerValue();
+        }
+        return itemsSize;
+    }
+
+    /**
+     * DOC talend Comment method "isColumnSetIndicator".
+     * 
+     * @return
+     */
+    private boolean isColumnSetIndicator() {
+        Analysis analysis = this.getAnalysis();
+        AnalysisType analysisType = analysis.getParameters().getAnalysisType();
+        return AnalysisType.COLUMN_SET == analysisType;
+    }
+
+    /**
+     * DOC talend Comment method "getColumnSetIndicatorResultSize".
+     * 
+     * @param itemsSize
+     * @return
+     */
+    private Long getColumnSetIndicatorResultSize() {
         Long itemsSize = 0l;
         SimpleStatIndicator simpleStatIndicator = null;
         // Find simpleStatIndicator from result of analysis
@@ -330,11 +373,11 @@ public class DrillDownEditorInput implements IEditorInput {
      */
     public AbstractDB<Object> getMapDB() {
         AnalysisType analysisType = analysis.getParameters().getAnalysisType();
-        String dbMapName = getDBMapName(analysisType);
         AbstractDB<Object> columnSetMapDB = getColumnSetAnalysisMapDB(analysisType);
         if (columnSetMapDB != null) {
             return columnSetMapDB;
         }
+        String dbMapName = getDBMapName(analysisType);
         return this.currIndicator.getMapDB(dbMapName);
 
     }
@@ -354,7 +397,7 @@ public class DrillDownEditorInput implements IEditorInput {
                 }
             }
             if (simpleStatIndicator != null) {
-                return simpleStatIndicator.getMapDB(StandardDBName.computeProcess.name());
+                return simpleStatIndicator.getMapDB(StandardDBName.dataSection.name());
             }
         }
         return null;
@@ -373,7 +416,7 @@ public class DrillDownEditorInput implements IEditorInput {
             String selectValue = ((LengthIndicator) currIndicator).getLength().toString();
             dbMapName = this.getSelectValue() + selectValue;
         } else if (AnalysisType.COLUMN_SET == analysisType) {
-            dbMapName = StandardDBName.computeProcess.name();
+            dbMapName = StandardDBName.dataSection.name();
         }
 
         return dbMapName;

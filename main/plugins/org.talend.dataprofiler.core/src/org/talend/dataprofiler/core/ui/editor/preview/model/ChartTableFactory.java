@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
+import org.talend.commons.MapDB.utils.AbstractDB;
+import org.talend.commons.MapDB.utils.StandardDBName;
 import org.talend.commons.utils.platform.PluginChecker;
 import org.talend.core.model.metadata.builder.connection.Connection;
 import org.talend.core.model.metadata.builder.connection.DatabaseConnection;
@@ -66,6 +68,7 @@ import org.talend.dataquality.indicators.DistinctCountIndicator;
 import org.talend.dataquality.indicators.DuplicateCountIndicator;
 import org.talend.dataquality.indicators.FrequencyIndicator;
 import org.talend.dataquality.indicators.Indicator;
+import org.talend.dataquality.indicators.LengthIndicator;
 import org.talend.dataquality.indicators.PatternFreqIndicator;
 import org.talend.dataquality.indicators.PatternLowFreqIndicator;
 import org.talend.dataquality.indicators.PatternMatchingIndicator;
@@ -78,6 +81,7 @@ import org.talend.dataquality.indicators.WellFormE164PhoneCountIndicator;
 import org.talend.dataquality.indicators.WellFormIntePhoneCountIndicator;
 import org.talend.dataquality.indicators.WellFormNationalPhoneCountIndicator;
 import org.talend.dataquality.indicators.columnset.AllMatchIndicator;
+import org.talend.dataquality.indicators.columnset.SimpleStatIndicator;
 import org.talend.dataquality.indicators.columnset.util.ColumnsetSwitch;
 import org.talend.dataquality.indicators.sql.WhereRuleIndicator;
 import org.talend.dataquality.indicators.util.IndicatorsSwitch;
@@ -383,7 +387,7 @@ public final class ChartTableFactory {
                         } else {
 
                             if (analysis.getParameters().isStoreData()) { // if allow drill down
-                                if (indicator.isSaveTempDataToFile()) {
+                                if (indicator.isUsedMapDBMode()) {
                                     createDrillDownMenuForMapDB(dataEntity, menu, itemEntities);
                                 } else {
                                     createDrillDownMenuForJava(dataEntity, menu, itemEntities);
@@ -449,7 +453,7 @@ public final class ChartTableFactory {
 
             private void createDrillDownMenuForMapDB(final ChartDataEntity dataEntity, Menu menu, MenuItemEntity[] itemEntities) {
                 final Indicator indicator = dataEntity != null ? dataEntity.getIndicator() : null;
-                if (dataEntity == null || RowCountIndicator.class.isInstance(indicator)) {
+                if (dataEntity == null || indicator == null || this.getMapDB(dataEntity).size() == 0) {
                     return;
                 }
                 for (final MenuItemEntity itemEntity : itemEntities) {
@@ -467,6 +471,64 @@ public final class ChartTableFactory {
                     });
                 }
 
+            }
+
+            /**
+             * Get MapDB which store the drill down data for current indicator
+             * 
+             * @return
+             */
+            private AbstractDB<Object> getMapDB(final ChartDataEntity dataEntity) {
+                Indicator indicator = dataEntity.getIndicator();
+                String selectValue = dataEntity.getLabel();
+                AnalysisType analysisType = analysis.getParameters().getAnalysisType();
+                String dbMapName = getDBMapName(analysisType, indicator, selectValue);
+                AbstractDB<Object> columnSetMapDB = getColumnSetAnalysisMapDB(analysisType);
+                if (columnSetMapDB != null) {
+                    return columnSetMapDB;
+                }
+                return indicator.getMapDB(dbMapName);
+
+            }
+
+            /**
+             * Get the name of MapDB
+             * 
+             * @return
+             */
+            private String getDBMapName(AnalysisType analysisType, Indicator indicator, String selectValue) {
+                String dbMapName = StandardDBName.drillDown.name();
+                if (FrequencyIndicator.class.isInstance(indicator)) {
+                    dbMapName = selectValue;
+                } else if (LengthIndicator.class.isInstance(indicator)) {
+                    String selectValueLength = ((LengthIndicator) indicator).getLength().toString();
+                    dbMapName = selectValue + selectValueLength;
+                } else if (AnalysisType.COLUMN_SET == analysisType) {
+                    dbMapName = StandardDBName.dataSection.name();
+                }
+
+                return dbMapName;
+            }
+
+            /**
+             * Get MapDB which store the drill down data for columnSet analysis
+             * 
+             * @param analysisType
+             */
+            private AbstractDB<Object> getColumnSetAnalysisMapDB(AnalysisType analysisType) {
+                if (AnalysisType.COLUMN_SET == analysisType) {
+                    SimpleStatIndicator simpleStatIndicator = null;
+                    for (Indicator indicator : analysis.getResults().getIndicators()) {
+                        if (SimpleStatIndicator.class.isInstance(indicator)) {
+                            simpleStatIndicator = (SimpleStatIndicator) indicator;
+                            break;
+                        }
+                    }
+                    if (simpleStatIndicator != null) {
+                        return simpleStatIndicator.getMapDB(StandardDBName.dataSection.name());
+                    }
+                }
+                return null;
             }
 
             /**

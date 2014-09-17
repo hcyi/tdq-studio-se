@@ -41,19 +41,6 @@ public class RowCountIndicatorImpl extends IndicatorImpl implements RowCountIndi
         return IndicatorsPackage.Literals.ROW_COUNT_INDICATOR;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#handle(java.lang.Object)
-     * 
-     * @generated NOT
-     */
-    @Override
-    public boolean handle(Object value) {
-        boolean returnValue = super.handle(value);
-        mustStoreRow = true;
-        return returnValue;
-    }
 
     /*
      * (non-Javadoc)

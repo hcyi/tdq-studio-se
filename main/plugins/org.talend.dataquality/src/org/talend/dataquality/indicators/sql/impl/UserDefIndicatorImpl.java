@@ -1036,4 +1036,14 @@ public class UserDefIndicatorImpl extends IndicatorImpl implements UserDefIndica
         distinctComputed = false;
         return true;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isUsedMapDBMode()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
+    }
 }

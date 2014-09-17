@@ -177,7 +177,9 @@ public class BlankCountIndicatorImpl extends IndicatorImpl implements BlankCount
         String str = (String) data;
         if (StringUtils.isBlank(str)) {
             // MOD mzhao feature: 12919
-            mustStoreRow = true;
+            if (this.checkMustStorCurrentRow()) {
+                mustStoreRow = true;
+            }
             this.blankCount++;
         }
         return ok;

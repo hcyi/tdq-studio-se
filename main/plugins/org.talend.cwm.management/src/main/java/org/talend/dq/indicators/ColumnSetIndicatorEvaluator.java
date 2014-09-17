@@ -601,7 +601,7 @@ public class ColumnSetIndicatorEvaluator extends Evaluator<String> {
                 if (!analysis.getParameters().isStoreData()) {
                     break;
                 }
-                if (simpleIndicator.isSaveTempDataToFile()) {
+                if (simpleIndicator.isUsedMapDBMode()) {
                     // nothing need to do
                 } else {
                     List<Object[]> listRows = simpleIndicator.getListRows();

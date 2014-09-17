@@ -76,7 +76,7 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
      * @return
      */
     private Set<Object> initValueForDBSet(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBSet<Object>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
         } else {
             return new HashSet<Object>();
@@ -248,12 +248,23 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
      * 
      */
     private void clearDrillDownData() {
-        if (!isSaveTempDataToFile()) {
+        if (!isUsedMapDBMode()) {
             return;
         }
         Iterator<Object> iterator = duplicateObjects.iterator();
         while (iterator.hasNext()) {
             drillDownMap.remove(iterator.next());
+            drillDownRowCount--;
+        }
+        // remove some items because limit
+        if (!this.checkMustStorCurrentRow()) {
+            Iterator<Object> desIterator = drillDownMap.descendingKeySet().iterator();
+            // Here is remove operation so that we need to use drillDownRowCount - 1 be parameter
+            while (desIterator.hasNext() && !this.checkMustStorCurrentRow(drillDownRowCount - 1)) {
+                Object currenKey = desIterator.next();
+                drillDownMap.remove(currenKey);
+                drillDownRowCount--;
+            }
         }
 
     }
@@ -267,7 +278,7 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
                 duplicateObjects.add(data);
 
             } else {
-                mustStoreRow = true;
+                this.mustStoreRow = true;
             }
         }
         return true;
@@ -276,7 +287,7 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
     @Override
     public boolean reset() {
         this.uniqueValueCount = UNIQUE_VALUE_COUNT_EDEFAULT;
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (uniqueObjects != null) {
                 ((DBSet<Object>) uniqueObjects).clear();
             }
@@ -318,7 +329,7 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
      */
     @Override
     public AbstractDB getMapDB(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             // is get computeProcess map
             if (StandardDBName.computeProcess.name().equals(dbName)) {
                 // current set is valid
@@ -342,10 +353,12 @@ public class UniqueCountIndicatorImpl extends IndicatorImpl implements UniqueCou
     @Override
     public void handleDrillDownData(Object masterObject, Object currentObject, int columnCount, int currentIndex,
             String currentColumnName) {
+        // this key is a masterObject super method is Long so need override
         List<Object> rowData = drillDownMap.get(masterObject);
         if (rowData == null) {
             rowData = new ArrayList<Object>();
             drillDownMap.put(masterObject, rowData);
+            this.drillDownRowCount++;
         }
         rowData.add(currentObject);
     }

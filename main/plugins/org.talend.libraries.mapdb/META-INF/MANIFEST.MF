@@ -8,6 +8,8 @@ Bundle-ClassPath: lib/mapdb-1.0.3.jar,
  .
 Bundle-Vendor: .Talend SA.
 Export-Package: org.mapdb,
- org.talend.commons.MapDB.utils
-Require-Bundle: org.apache.log4j
+ org.talend.commons.MapDB.utils,
+ org.talend.sqlexplorer.dataset
+Require-Bundle: org.apache.log4j,
+ net.sourceforge.sqlexplorer
 Import-Package: org.talend.commons.MapDB.utils

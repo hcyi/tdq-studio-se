@@ -54,7 +54,7 @@ public class SoundexLowFreqIndicatorImpl extends SoundexFreqIndicatorImpl implem
      */
     public boolean finalizeComputation() {
         final int topN = (parameters != null) ? parameters.getTopN() : PluginConstant.DEFAULT_TOP_N;
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             computeSoundexFreqByMapDB(false);
         } else {
             soundexForJavaEngine();

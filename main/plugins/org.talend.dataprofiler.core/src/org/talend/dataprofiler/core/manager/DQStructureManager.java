@@ -187,10 +187,6 @@ public final class DQStructureManager {
                 ProxyRepositoryFactory.getInstance().createFolder(ERepositoryObjectType.TDQ_DATA_PROFILING, Path.EMPTY,
                         EResourceConstant.ANALYSIS.getName());
             }
-            if (!project.getFolder(EResourceConstant.TEMP_MAPDB.getPath()).exists()) {
-                ProxyRepositoryFactory.getInstance().createFolder(ERepositoryObjectType.FOLDER, Path.EMPTY,
-                        EResourceConstant.TEMP_MAPDB.getName());
-            }
 
             if (PluginChecker.isTDQLoaded()) {
                 if (!project.getFolder(EResourceConstant.REPORTS.getPath()).exists()) {

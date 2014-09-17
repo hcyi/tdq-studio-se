@@ -58,12 +58,20 @@ public class MinLengthWithBlankNullIndicatorImpl extends MinLengthIndicatorImpl 
         if (data != null) {
             String str = (String) data;
             if (0 == str.trim().length()) {
-                length = new Long(0);
-                mustStoreRow = true;
+                if (length > 0) {
+                    changeLength(0);
+                }
+                if (this.checkMustStorCurrentRow()) {
+                    mustStoreRow = true;
+                }
             }
         } else {
-            length = new Long(0);
-            mustStoreRow = true;
+            if (length > 0) {
+                changeLength(0);
+            }
+            if (this.checkMustStorCurrentRow()) {
+                mustStoreRow = true;
+            }
         }
         return ok;
     }

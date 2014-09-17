@@ -1,7 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
+ * <copyright> </copyright>
+ * 
  * $Id$
  */
 package org.talend.dataquality.indicators.columnset.impl;
@@ -11,18 +10,18 @@ import org.talend.dataquality.indicators.columnset.ColumnsetPackage;
 import org.talend.dataquality.indicators.columnset.MinMaxDateIndicator;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Min Max Date Indicator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Min Max Date Indicator</b></em>'. <!--
+ * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class MinMaxDateIndicatorImpl extends ColumnSetMultiValueIndicatorImpl implements MinMaxDateIndicator {
+
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected MinMaxDateIndicatorImpl() {
@@ -30,8 +29,8 @@ public class MinMaxDateIndicatorImpl extends ColumnSetMultiValueIndicatorImpl im
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -39,4 +38,14 @@ public class MinMaxDateIndicatorImpl extends ColumnSetMultiValueIndicatorImpl im
         return ColumnsetPackage.Literals.MIN_MAX_DATE_INDICATOR;
     }
 
-} //MinMaxDateIndicatorImpl
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isUsedMapDBMode()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
+    }
+
+} // MinMaxDateIndicatorImpl

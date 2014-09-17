@@ -51,9 +51,17 @@ public class MinLengthIndicatorImpl extends LengthIndicatorImpl implements MinLe
         if (data != null) {
             String str = (String) data;
             final int strLength = str.length();
-            if (strLength > 0 && (length == LENGTH_EDEFAULT || length.intValue() > strLength)) {
-                length = Long.valueOf(strLength);
-                mustStoreRow = true;
+            if (strLength > 0) {
+                if ((length == LENGTH_EDEFAULT || length.intValue() == strLength)) {
+
+                    length = Long.valueOf(strLength);
+                    if (this.checkMustStorCurrentRow()) {
+                        mustStoreRow = true;
+                    }
+                } else if (length.intValue() > strLength) {
+                    changeLength(strLength);
+                    mustStoreRow = true;
+                }
             }
         }
         return ok;

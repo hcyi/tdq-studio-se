@@ -79,7 +79,7 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
      * @return
      */
     private Map<Object, List<Object[]>> initValueForDBMap(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBValueListMap<Object>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
         } else {
             return new HashMap<Object, List<Object[]>>();
@@ -92,7 +92,7 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
      * @return
      */
     private Set<Object> initValueForDBSet(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBSet<Object>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
         } else {
             return new HashSet<Object>();
@@ -263,15 +263,15 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
         // at the end: remove the list.size()=1 , only remain the list.size()>1
         Iterator<Object> iterator = duplicateMap.keySet().iterator();
         long dupSize = 0;
-        long keyIndex = 0;
         while (iterator.hasNext()) {
             Object key = iterator.next();
             List<Object[]> valuelist = duplicateMap.get(key);
 
             if (valuelist.size() > 1) {
                 dupSize++;
-                addDrillDownData(keyIndex, valuelist);
-                keyIndex += valuelist.size();
+                if (needStoreDrillDownData()) {
+                    addDrillDownData(valuelist);
+                }
                 this.duplicateObjects.add(key);
             }
         }
@@ -284,15 +284,25 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
      * 
      * @param valuelist
      */
-    private void addDrillDownData(long keyIndex, List<Object[]> valuelist) {
-        if (!isSaveTempDataToFile()) {
-            return;
-        }
+    private void addDrillDownData(List<Object[]> valuelist) {
+
         for (int i = 0; i < valuelist.size(); i++) {
             List<Object> rowData = Arrays.asList(valuelist.get(i));
-            drillDownMap.put(keyIndex++, rowData);
+            if (this.checkMustStorCurrentRow()) {
+                drillDownMap.put(this.drillDownRowCount++, rowData);
+            }
         }
 
+    }
+
+    /**
+     * Judge whether we should store current data. It should be mapDB mode and keyIndex is not more than limit
+     * 
+     * @param keyIndex
+     * @return
+     */
+    private boolean needStoreDrillDownData() {
+        return isUsedMapDBMode() && this.checkMustStorCurrentRow();
     }
 
     @Override
@@ -311,7 +321,7 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
     @Override
     public boolean reset() {
         this.duplicateValueCount = DUPLICATE_VALUE_COUNT_EDEFAULT;
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (duplicateMap != null) {
                 ((DBValueListMap<Object>) duplicateMap).clear();
             }
@@ -387,7 +397,7 @@ public class DuplicateCountIndicatorImpl extends IndicatorImpl implements Duplic
      */
     @Override
     public AbstractDB getMapDB(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             // is get computeProcess map
             if (StandardDBName.computeProcess.name().equals(dbName)) {
                 // current set is valid

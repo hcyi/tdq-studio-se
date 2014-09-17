@@ -14,35 +14,38 @@ package net.sourceforge.sqlexplorer.dataset.mapdb;
 
 import net.sourceforge.sqlexplorer.dataset.DataSet;
 
-import org.talend.commons.MapDB.utils.DataValidation;
-
 /**
- * created by talend on Sep 2, 2014 Detailled comment
+ * this is only used by sqlexplorer.
  * 
  */
-public class TalendDataSet extends DataSet {
+public class SqlExplorerTalendDataSet extends DataSet {
 
-    /**
-     * DOC talend TalendDataSet constructor comment.
-     * 
-     * @param columnLabels
-     * @param data
-     */
     protected long startIndex = 0;
 
     protected long endIndex = 0;
 
+    protected long rowSize = -1;
+
     protected String[] columnHeads = null;
 
-    protected DataValidation dataValidator = null;
-
-    public TalendDataSet(String[] columnLabels, Comparable[][] data, int pageSize) {
+    /**
+     * ParentTalendDataSet constructor.
+     * 
+     * @param columnLabels
+     * @param data
+     * @param pageSize
+     */
+    public SqlExplorerTalendDataSet(String[] columnLabels, Comparable[][] data, int pageSize) {
         super(columnLabels, data);
         columnHeads = columnLabels;
         endIndex = pageSize;
-
     }
 
+    /**
+     * get Current Page DataSet.
+     * 
+     * @return
+     */
     public DataSet getCurrentPageDataSet() {
         return null;
     }

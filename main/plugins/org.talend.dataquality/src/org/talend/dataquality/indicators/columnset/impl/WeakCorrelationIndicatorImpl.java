@@ -1,7 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
+ * <copyright> </copyright>
+ * 
  * $Id$
  */
 package org.talend.dataquality.indicators.columnset.impl;
@@ -11,18 +10,18 @@ import org.talend.dataquality.indicators.columnset.ColumnsetPackage;
 import org.talend.dataquality.indicators.columnset.WeakCorrelationIndicator;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Weak Correlation Indicator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Weak Correlation Indicator</b></em>'. <!--
+ * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class WeakCorrelationIndicatorImpl extends ColumnSetMultiValueIndicatorImpl implements WeakCorrelationIndicator {
+
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected WeakCorrelationIndicatorImpl() {
@@ -30,8 +29,8 @@ public class WeakCorrelationIndicatorImpl extends ColumnSetMultiValueIndicatorIm
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -39,4 +38,14 @@ public class WeakCorrelationIndicatorImpl extends ColumnSetMultiValueIndicatorIm
         return ColumnsetPackage.Literals.WEAK_CORRELATION_INDICATOR;
     }
 
-} //WeakCorrelationIndicatorImpl
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.dataquality.indicators.impl.IndicatorImpl#isUsedMapDBMode()
+     */
+    @Override
+    public boolean isUsedMapDBMode() {
+        return false;
+    }
+
+} // WeakCorrelationIndicatorImpl

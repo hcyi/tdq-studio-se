@@ -82,7 +82,7 @@ public class SoundexFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
      * @return
      */
     private Map<Object, List<Object>> initValueForDBMap(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBMap<Object, List<Object>>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
 
         }
@@ -294,7 +294,7 @@ public class SoundexFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
     @Override
     public boolean handle(Object data) {
 
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (data == null) {
                 List<Object> valueList = soundexFreqMap.get(data);
                 if (valueList == null) {
@@ -466,7 +466,7 @@ public class SoundexFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
     @Override
     public boolean finalizeComputation() {
         final int topN = (parameters != null) ? parameters.getTopN() : PluginConstant.DEFAULT_TOP_N;
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             computeSoundexFreqByMapDB(true);
         } else {
             soundexForJavaEngine();
@@ -523,7 +523,7 @@ public class SoundexFreqIndicatorImpl extends FrequencyIndicatorImpl implements 
      */
     @Override
     public boolean reset() {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (soundexFreqMap != null) {
                 soundexFreqMap.clear();
             }

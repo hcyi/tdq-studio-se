@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.2.0",
  org.talend.model,
  org.talend.utils,
  org.talend.core.runtime,
- org.talend.metadata.managment,
- org.talend.libraries.mapdb
+ org.talend.metadata.managment
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: sqlexplorer.jar,
  lib/rowset.jar,

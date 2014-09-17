@@ -10,7 +10,7 @@
 // 9 rue Pages 92150 Suresnes, France
 //
 // ============================================================================
-package net.sourceforge.sqlexplorer.dataset.mapdb;
+package org.talend.sqlexplorer.dataset;
 
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +32,6 @@ public class MapDBkeyListDataSet extends TalendDataSet {
     protected int currentIndex = 0;
 
     protected Iterator<List<Object>> iterator = null;
-
-    protected long rowSize = 0;
 
     /**
      * DOC talend MapDBValueListDataSet constructor comment.

@@ -43,7 +43,7 @@ public class LowerQuartileIndicatorImpl extends MinValueIndicatorImpl implements
      * @return
      */
     private Map<Object, Long> initValueForDBMap(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             return new DBMap<Object, Long>(ResourceManager.getMapDBFilePath(this), this.getName(), dbName);
         } else {
             return new TreeMap<Object, Long>();
@@ -74,7 +74,7 @@ public class LowerQuartileIndicatorImpl extends MinValueIndicatorImpl implements
     public boolean reset() {
         this.computed = COMPUTED_EDEFAULT; // tells that quartile should be recomputed.
         this.setValue(VALUE_EDEFAULT);
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (frequenceTable != null) {
                 ((DBMap<Object, Long>) frequenceTable).clear();
             }
@@ -143,7 +143,7 @@ public class LowerQuartileIndicatorImpl extends MinValueIndicatorImpl implements
      */
     @Override
     public AbstractDB getMapDB(String dbName) {
-        if (saveTempDataToFile) {
+        if (isUsedMapDBMode()) {
             if (StandardDBName.computeProcess.name().equals(dbName) && frequenceTable != null
                     && !((DBMap<Object, Long>) frequenceTable).isClosed()) {
                 return (DBMap<Object, Long>) frequenceTable;

@@ -49,7 +49,7 @@ public class SimpleStatisticsExplorer extends DataExplorer {
         if (!isXml() || !isSqlEngine) {
 
             switch (this.indicatorEnum) {
-            case RowCountIndicatorEnum:
+            // case RowCountIndicatorEnum:
             case NullCountIndicatorEnum:
             case BlankCountIndicatorEnum:
             case DefValueCountIndicatorEnum:

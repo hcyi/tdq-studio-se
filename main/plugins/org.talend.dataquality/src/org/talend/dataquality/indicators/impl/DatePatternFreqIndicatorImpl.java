@@ -127,7 +127,6 @@ public class DatePatternFreqIndicatorImpl extends FrequencyIndicatorImpl impleme
         }
         boolean returnValue = super.handle(data);
         // MOD yyi 2011-12-14 TDQ-4166:View rows for Date Pattern Frequency Indicator.
-        this.mustStoreRow = true;
         return returnValue;
     }
 

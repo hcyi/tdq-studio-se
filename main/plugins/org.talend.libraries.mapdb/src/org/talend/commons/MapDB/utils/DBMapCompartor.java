@@ -28,6 +28,17 @@ public class DBMapCompartor implements Comparator<Object>, Serializable {
     @SuppressWarnings("unchecked")
     @Override
     public int compare(Object o1, Object o2) {
+        if (o1 == null && o2 == null) {
+            return 0;
+        }
+
+        if (o1 == null && o2 != null) {
+            return -1;
+        }
+
+        if (o1 != null && o2 == null) {
+            return 1;
+        }
 
         if (o1.equals(o2)) {
             return 0;
@@ -36,6 +47,7 @@ public class DBMapCompartor implements Comparator<Object>, Serializable {
         if (TupleEmpty.class.isInstance(o1)) {
             return 1;
         }
+
         if (TupleEmpty.class.isInstance(o2)) {
             return -1;
         }
@@ -43,6 +55,7 @@ public class DBMapCompartor implements Comparator<Object>, Serializable {
         if (Comparable.class.isInstance(o1)) {
             return ((Comparable) o1).compareTo(o2);
         }
+
         if (List.class.isInstance(o1)) {
             return listCompare(((List) o1).toArray(), ((List) o2).toArray());
         }
@@ -59,13 +72,6 @@ public class DBMapCompartor implements Comparator<Object>, Serializable {
     private int listCompare(Object[] array1, Object[] array2) {
         int i = -1;
         for (int index = 0; index < array1.length; index++) {
-            if (array1[index] == null) {
-                return -1;
-            }
-
-            if (array2[index] == null) {
-                return 1;
-            }
             i = compare(array1[index], array2[index]);
             if (i != 0) {
                 return i;

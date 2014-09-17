@@ -49,9 +49,17 @@ public class MaxLengthIndicatorImpl extends LengthIndicatorImpl implements MaxLe
         boolean ok = super.handle(data);
         if (data != null) {
             String str = (String) data;
-            if (str.length() > 0 && (length == null || length.intValue() < str.length())) {
-                length = Long.valueOf(str.length());
-                this.mustStoreRow = true;
+            final int strLength = str.length();
+            if (strLength > 0) {
+                if ((length == LENGTH_EDEFAULT || length.intValue() == strLength)) {
+                    length = Long.valueOf(str.length());
+                    if (this.checkMustStorCurrentRow()) {
+                        mustStoreRow = true;
+                    }
+                } else if (length.intValue() < strLength) {
+                    changeLength(strLength);
+                    mustStoreRow = true;
+                }
             }
         }
         return ok;
@@ -68,6 +76,15 @@ public class MaxLengthIndicatorImpl extends LengthIndicatorImpl implements MaxLe
         parameters.getTextParameter().setUseNulls(false);
         parameters.getTextParameter().setUseBlank(false);
         return parameters;
+    }
+
+    protected void zeroIsMax() {
+        if (length == LENGTH_EDEFAULT) {
+            length = 0L;
+        }
+        if (length == 0 && this.checkMustStorCurrentRow()) {
+            mustStoreRow = true;
+        }
     }
 
 } // MaxLengthIndicatorImpl

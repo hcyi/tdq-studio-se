@@ -15,13 +15,14 @@ import org.talend.dataquality.indicators.IndicatorsPackage;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class AvgLengthWithBlankNullIndicatorImpl extends AverageLengthIndicatorImpl implements AvgLengthWithBlankNullIndicator {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected AvgLengthWithBlankNullIndicatorImpl() {
@@ -30,13 +31,13 @@ public class AvgLengthWithBlankNullIndicatorImpl extends AverageLengthIndicatorI
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     protected EClass eStaticClass() {
         return IndicatorsPackage.Literals.AVG_LENGTH_WITH_BLANK_NULL_INDICATOR;
     }
-
 
     @Override
     public IndicatorParameters getParameters() {
@@ -55,7 +56,7 @@ public class AvgLengthWithBlankNullIndicatorImpl extends AverageLengthIndicatorI
     @Override
     public boolean handle(Object data) {
         // override super.handle(data);
-
+        this.mustStoreRow = false;
         count++; // count all rows
         if (data == null) {
             nullCount++;
@@ -68,6 +69,5 @@ public class AvgLengthWithBlankNullIndicatorImpl extends AverageLengthIndicatorI
         }
         return true;
     }
-
 
 } // AvgLengthWithBlankNullIndicatorImpl

@@ -15,6 +15,7 @@ package org.talend.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -29,16 +30,19 @@ import org.talend.commons.bridge.ReponsitoryContextBridge;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.PropertiesPackage;
 import org.talend.core.model.properties.Property;
+import org.talend.cwm.i18n.Messages;
 import org.talend.dataquality.analysis.Analysis;
+import org.talend.dataquality.analysis.AnalysisType;
 import org.talend.dataquality.helpers.AnalysisHelper;
 import org.talend.dataquality.indicators.Indicator;
-import org.talend.dataquality.indicators.columnset.ColumnSetMultiValueIndicator;
 import org.talend.dataquality.properties.TDQJrxmlItem;
 
 /**
  * DOC bZhou class global comment. Detailled comment
  */
 public final class ResourceManager {
+
+    private static final Logger log = Logger.getLogger(ResourceManager.class);
 
     private ResourceManager() {
     }
@@ -104,18 +108,24 @@ public final class ResourceManager {
      * 
      * @param indicator we should find the name of analysis,analysisElement,indicatorDefinition.So that it should be
      * used by some one analysis
+     * 
+     * ColumnAnalysis like(../analysisName/columnName/indicatorName) others like(../analysisName/indicatorName)
      * @return
      */
     public static String getMapDBFilePath(Indicator indicator) {
         Analysis analysis = AnalysisHelper.getAnalysis(indicator);
-        String analysisName = analysis.getName();
+        String analysisName = null;
         String indicatorName = indicator.getName();
         String modelElementName = Path.EMPTY.toString();
-        if (indicator instanceof ColumnSetMultiValueIndicator) {
-
+        if (analysis == null) {
+            log.error(Messages.getString("ResourceManager.CanNotGetAnalysis"));
         } else {
-            modelElementName = indicator.getAnalyzedElement().getName();
+            analysisName = analysis.getName();
+            if (AnalysisType.COLUMN.equals(analysis.getParameters().getAnalysisType())) {
+                modelElementName = indicator.getAnalyzedElement().getName();
+            }
         }
+
         return getTempMapDBFolder().getLocation().append(analysisName).append(modelElementName).append(indicatorName)
                 .toOSString();
 

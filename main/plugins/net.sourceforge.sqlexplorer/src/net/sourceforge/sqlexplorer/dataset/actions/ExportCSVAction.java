@@ -20,7 +20,7 @@ import java.io.PrintStream;
 import net.sourceforge.sqlexplorer.Messages;
 import net.sourceforge.sqlexplorer.dataset.DataSet;
 import net.sourceforge.sqlexplorer.dataset.DataSetRow;
-import net.sourceforge.sqlexplorer.dataset.mapdb.TalendDataSet;
+import net.sourceforge.sqlexplorer.dataset.mapdb.SqlExplorerTalendDataSet;
 import net.sourceforge.sqlexplorer.dialogs.CsvExportOptionsDlg;
 import net.sourceforge.sqlexplorer.util.ImageUtil;
 import net.sourceforge.sqlexplorer.util.TextUtil;
@@ -97,8 +97,8 @@ public class ExportCSVAction extends AbstractDataSetTableContextAction {
                     // check if there is somethign in our table
                     DataSet dataSet = (DataSet) _table.getData();
 
-                    if (!isExportAll && TalendDataSet.class.isInstance(dataSet)) {
-                        dataSet = ((TalendDataSet) dataSet).getCurrentPageDataSet();
+                    if (!isExportAll && SqlExplorerTalendDataSet.class.isInstance(dataSet)) {
+                        dataSet = ((SqlExplorerTalendDataSet) dataSet).getCurrentPageDataSet();
                     }
 
                     if (dataSet == null) {
